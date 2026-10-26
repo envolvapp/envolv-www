@@ -73,6 +73,13 @@ run `.claude/git-push.bat` (native Windows git; output in `.claude/git-out.log`)
 
 DNS (envolv.app + www, envolv.org → redirect) is roadmap item **B2** and needs Sean.
 
+## Contact address
+
+`hello@envolv.app` (`CONTACT_EMAIL` in `lib/content.ts`) is a Namecheap email-forwarding
+alias that fans out to the three co-founders. It is **not** `@envolv.org` on purpose:
+envolv.org's MX records belong to Resend (sending from `noreply@envolv.org` depends on
+them), and switching that domain to Namecheap forwarding would replace them.
+
 ## What's not here yet
 
 - **B3** — persisting leads (Supabase table or Resend audience). Today a demo request

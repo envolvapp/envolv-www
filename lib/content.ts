@@ -40,6 +40,14 @@
 export const DEMO_URL =
   process.env.NEXT_PUBLIC_DEMO_URL ?? 'https://envolv-demo.vercel.app'
 
+/**
+ * Public contact address (footer + the demo form's failure fallback).
+ * Namecheap email forwarding on envolv.app sends it to all three co-founders.
+ * Deliberately NOT @envolv.org: that domain's MX records belong to Resend, and
+ * Namecheap forwarding would replace them — breaking noreply@envolv.org sending.
+ */
+export const CONTACT_EMAIL = 'hello@envolv.app'
+
 /** A plan feature: a plain string ships today; `{ text, soon }` doesn't yet. */
 export type Feature = string | { text: string; soon: true }
 

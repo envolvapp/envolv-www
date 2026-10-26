@@ -20,7 +20,7 @@ import {
 import DemoForm from '@/components/DemoForm'
 import Pricing from '@/components/Pricing'
 import SoonBadge from '@/components/SoonBadge'
-import { COMPARISON, DEMO_URL, FEATURES, VERTICALS } from '@/lib/content'
+import { COMPARISON, CONTACT_EMAIL, DEMO_URL, FEATURES, VERTICALS } from '@/lib/content'
 
 const ICONS = {
   PawPrint,
@@ -366,10 +366,10 @@ export default function Home() {
             © {new Date().getFullYear()} Envolv, LLC. All rights reserved.
           </p>
           <a
-            href="mailto:hello@envolv.org"
+            href={`mailto:${CONTACT_EMAIL}`}
             className="text-sm text-ink-400 transition-colors hover:text-white"
           >
-            hello@envolv.org
+            {CONTACT_EMAIL}
           </a>
         </div>
       </footer>

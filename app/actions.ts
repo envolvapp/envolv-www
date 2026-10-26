@@ -1,5 +1,6 @@
 'use server'
 
+import { CONTACT_EMAIL } from '@/lib/content'
 import { notifyRecipients, sendEmail } from '@/lib/email'
 import type { DemoRequestState } from '@/lib/types'
 
@@ -53,8 +54,7 @@ export async function requestDemo(
     console.error('[demo-request] send failed:', result.error)
     return {
       status: 'error',
-      message:
-        "We couldn't submit that just now. Email us at hello@envolv.org and we'll set the demo up directly.",
+      message: `We couldn't submit that just now. Email us at ${CONTACT_EMAIL} and we'll set the demo up directly.`,
     }
   }
 
