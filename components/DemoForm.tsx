@@ -118,10 +118,14 @@ export default function DemoForm() {
           </label>
           <select id="size" name="size" className={inputClass} defaultValue="">
             <option value="">Select one…</option>
-            <option value="Under 100">Under 100</option>
-            <option value="100–1,000">100–1,000</option>
-            <option value="1,000–10,000">1,000–10,000</option>
-            <option value="10,000+">10,000+</option>
+            {/* Bands match the plan walls (Free 25 / Starter 100 / Growth 250 /
+                Professional 1,000), so a lead maps straight to a tier. Values
+                carry no commas because they're Notion select options. */}
+            <option value="Under 25">Under 25</option>
+            <option value="25–100">25–100</option>
+            <option value="100–250">100–250</option>
+            <option value="250–1000">250–1,000</option>
+            <option value="1000+">1,000+</option>
           </select>
         </div>
       </div>

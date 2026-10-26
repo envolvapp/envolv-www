@@ -24,10 +24,10 @@ design system exactly.
 
 ## 2026-07-12 — Demo requests are emailed, not stored (yet)
 
-The form sends via Resend to everyone in `DEMO_NOTIFY_EMAILS` and does nothing else.
-Persistence is roadmap **B3**. Until B3 lands, **a failed Resend send loses the lead**
-— which is exactly why `lib/email.ts` reports failures instead of swallowing them, and
-why the form shows the visitor a fallback address rather than a fake success message.
+*Superseded 2026-10-26 — see "Leads also go to Notion" below.* The form sent via
+Resend to everyone in `DEMO_NOTIFY_EMAILS` and did nothing else, so a failed send
+lost the lead — which is why `lib/email.ts` reports failures instead of swallowing
+them, and why the form shows the visitor a fallback address rather than a fake success.
 
 ## 2026-07-12 — Named competitor comparison
 
@@ -56,3 +56,26 @@ team delivers by hand (support, onboarding calls, data migration, a CSM) are not
 Related copy fixes the same day: "Start free" → "Request a free account" (there is no
 self-serve signup until F1/F2), and no more "waitlists", "e-signatures", or "push
 reminders" in feature copy.
+
+## 2026-10-26 — Leads also go to Notion (roadmap B3)
+
+Every demo request now also becomes a row in the **Website Leads** Notion database
+(Envolv workspace → Marketing and Sales Hub), alongside the email. Considered: a
+Supabase table, a Resend audience, Notion. **Chose Notion** because it's where the
+founders already work — a lead lands in a table they can sort, assign and mark
+"Contacted" without anyone building an admin screen. A Supabase table would need
+that screen; a Resend audience is a mailing list, not a pipeline.
+
+The two records are independent: email first (so the row can record whether the
+alert went out), then Notion. The visitor gets an error only if both fail. Same
+contract as `lib/email.ts` — `lib/leads.ts` returns failures, never throws, never
+swallows. Revisit when the product has its own CRM-ish surface or lead volume makes
+Notion's API limits (~3 requests/second) matter; neither is close.
+
+## 2026-10-26 — Logo: Sean's wordmark with the Embrace ring
+
+Sean supplied the final brand as three PNGs (ring icon, lockup with "Get involved.",
+2,000px wordmark). They're kept in `brand-src/`; the site uses SVGs traced from them
+(potrace), so the logo stays sharp at any size and weighs a few KB. The text "Envolv"
+placeholder in the header and footer is gone. The share image uses the light lockup
+on white with the tagline "Get involved." and the free-tier line from `content.ts`.

@@ -2,6 +2,7 @@
 
 import { CONTACT_EMAIL } from '@/lib/content'
 import { notifyRecipients, sendEmail } from '@/lib/email'
+import { saveLead } from '@/lib/leads'
 import type { DemoRequestState } from '@/lib/types'
 
 // Deliberately permissive: anything with an @ and a dot after it. Rejecting a
@@ -31,7 +32,11 @@ export async function requestDemo(
     return { status: 'error', message: 'That email address does not look right.' }
   }
 
-  const result = await sendEmail({
+  // Two independent records of every lead: the founders' inbox and the
+  // "Website Leads" Notion database. Email goes first so the Notion row can
+  // say whether the alert went out. The visitor only sees an error if BOTH
+  // fail — one success means the lead is captured.
+  const emailResult = await sendEmail({
     to: notifyRecipients(),
     replyTo: email,
     subject: `Demo request — ${org}`,
@@ -49,9 +54,22 @@ export async function requestDemo(
     ].join('\n'),
   })
 
-  if (!result.ok) {
-    // Log the real reason server-side; show the visitor something they can act on.
-    console.error('[demo-request] send failed:', result.error)
+  const leadResult = await saveLead({
+    name,
+    email,
+    org,
+    vertical,
+    size,
+    notes,
+    emailSent: emailResult.ok,
+  })
+
+  // Log the real reasons server-side (Vercel → Logs).
+  if (!emailResult.ok) console.error('[demo-request] email failed:', emailResult.error)
+  if (!leadResult.ok) console.error('[demo-request] Notion save failed:', leadResult.error)
+
+  if (!emailResult.ok && !leadResult.ok) {
+    // Nothing captured the lead — show the visitor something they can act on.
     return {
       status: 'error',
       message: `We couldn't submit that just now. Email us at ${CONTACT_EMAIL} and we'll set the demo up directly.`,

@@ -17,10 +17,18 @@ import {
   Check,
   CircleDashed,
 } from 'lucide-react'
+import Image from 'next/image'
 import DemoForm from '@/components/DemoForm'
 import Pricing from '@/components/Pricing'
 import SoonBadge from '@/components/SoonBadge'
-import { COMPARISON, CONTACT_EMAIL, DEMO_URL, FEATURES, VERTICALS } from '@/lib/content'
+import {
+  COMPARISON,
+  CONTACT_EMAIL,
+  DEMO_URL,
+  FEATURES,
+  HERO_BADGE,
+  VERTICALS,
+} from '@/lib/content'
 
 const ICONS = {
   PawPrint,
@@ -37,14 +45,22 @@ const ICONS = {
   Languages,
 }
 
-function Logo() {
+/**
+ * The "envolv" wordmark with the Embrace-ring "o" (Sean's final, 2026-10-26).
+ * Dark-surface variant: white letters, brand-colored ring. The light variant
+ * (emerald letters) is in public/brand/ for light backgrounds; originals are
+ * in brand-src/. 1409×361 viewBox → 28px tall ≈ 109px wide.
+ */
+function Logo({ priority = false }: { priority?: boolean }) {
   return (
-    <span className="flex items-center gap-2 text-lg font-semibold tracking-tight text-white">
-      <span className="grid size-7 place-items-center rounded-lg bg-brand-500 text-sm font-bold text-white">
-        E
-      </span>
-      Envolv
-    </span>
+    <Image
+      src="/brand/envolv-logo-dark.svg"
+      alt="Envolv"
+      width={109}
+      height={28}
+      priority={priority}
+      unoptimized
+    />
   )
 }
 
@@ -61,7 +77,9 @@ export default function Home() {
 
       <header className="sticky top-0 z-40 border-b border-ink-800/70 bg-ink-950/80 backdrop-blur">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Logo />
+          <a href="#main" aria-label="Envolv — back to top" className="rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-400">
+            <Logo priority />
+          </a>
           <div className="hidden items-center gap-8 text-sm text-ink-200 md:flex">
             <a className="transition-colors hover:text-white" href="#features">
               Features
@@ -90,10 +108,12 @@ export default function Home() {
             className="pointer-events-none absolute inset-x-0 -top-40 h-[28rem] bg-[radial-gradient(60%_60%_at_50%_50%,rgba(1,136,122,0.22),transparent_70%)]"
           />
           <div className="relative mx-auto max-w-6xl px-6 pb-20 pt-20 md:pt-28">
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-ink-800 bg-ink-900/60 px-3.5 py-1.5 text-xs text-ink-200">
-              <span className="size-1.5 rounded-full bg-teal-500" />
-              Live today at a free medical clinic — and built for what&apos;s next
-            </p>
+            {HERO_BADGE.show && (
+              <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-ink-800 bg-ink-900/60 px-3.5 py-1.5 text-xs text-ink-200">
+                <span className="size-1.5 rounded-full bg-teal-500" />
+                {HERO_BADGE.text}
+              </p>
+            )}
 
             <h1 className="max-w-3xl text-4xl font-bold leading-[1.1] tracking-tight text-white md:text-6xl">
               Volunteer management your volunteers will{' '}

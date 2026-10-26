@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
-
-const SITE_URL = 'https://envolv.app'
+import { SITE_URL } from '@/lib/content'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -30,7 +29,10 @@ export const metadata: Metadata = {
     description:
       'Mobile-first volunteer scheduling, hour tracking, and onboarding. Free up to 25 volunteers.',
   },
-  // A full OG image, robots.txt, and sitemap land in B4.
+  alternates: { canonical: '/' },
+  // Icons, share images, robots.txt and sitemap.xml come from Next's file
+  // conventions in app/: favicon.ico, icon.svg, apple-icon.png,
+  // opengraph-image.png, twitter-image.png, robots.ts, sitemap.ts.
 }
 
 export const viewport: Viewport = {

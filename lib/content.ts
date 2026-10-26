@@ -48,6 +48,20 @@ export const DEMO_URL =
  */
 export const CONTACT_EMAIL = 'hello@envolv.app'
 
+/** Canonical origin — used for metadata, robots.txt and the sitemap. */
+export const SITE_URL = 'https://envolv.app'
+
+/**
+ * The small pill above the hero headline. Hidden 2026-10-26 at Sean's request
+ * until the claim is one a prospect can verify; scheduled to come back on
+ * 2026-11-23 (flip `show` to true). The industries section's clinic card makes
+ * a similar "running live" claim — revisit both together.
+ */
+export const HERO_BADGE = {
+  show: false,
+  text: 'Live today at a free medical clinic — and built for what’s next',
+}
+
 /** A plan feature: a plain string ships today; `{ text, soon }` doesn't yet. */
 export type Feature = string | { text: string; soon: true }
 

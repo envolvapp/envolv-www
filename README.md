@@ -27,6 +27,8 @@ Copy `.env.example` → `.env.local`. Set the same vars on the Vercel project.
 | `RESEND_API_KEY` | yes | Sends the demo-request notification. Missing → the form returns a visible error rather than silently dropping the lead. |
 | `RESEND_FROM_EMAIL` | yes | Must be on a Resend-**verified** domain. `envolv.org` was verified 2026-08-26, so use `noreply@envolv.org`. |
 | `DEMO_NOTIFY_EMAILS` | yes | Comma-separated. Every demo request goes to all of them. Adding a founder = an env var edit, no code change. |
+| `NOTION_TOKEN` | recommended | Secret of the "envolv-www leads" Notion integration. Saves each demo request as a row in **Website Leads**. Missing → leads are email-only. |
+| `NOTION_LEADS_DATA_SOURCE_ID` | recommended | Data source id of the Website Leads database (`c38d2ca0-…`, see Vercel). |
 | `NEXT_PUBLIC_DEMO_URL` | no | Where "See it live" points. Defaults to `https://envolv-demo.vercel.app`. |
 
 > ⚠️ `NEXT_PUBLIC_DEMO_URL` is the **only** `NEXT_PUBLIC_*` var here, and that is
@@ -80,8 +82,47 @@ alias that fans out to the three co-founders. It is **not** `@envolv.org` on pur
 envolv.org's MX records belong to Resend (sending from `noreply@envolv.org` depends on
 them), and switching that domain to Namecheap forwarding would replace them.
 
+## Where leads go
+
+Every demo request is recorded twice, independently (`app/actions.ts`):
+
+1. **Email** to everyone in `DEMO_NOTIFY_EMAILS` (`lib/email.ts`, via Resend).
+2. **A row in Notion** — Envolv workspace → Marketing and Sales Hub → **Website Leads**
+   (`lib/leads.ts`). Columns: Organization, Contact, Email, Industry, Volunteers,
+   Using today, Source, Email alert sent, Received (automatic), plus Status and Owner
+   for the founders to work the lead (New → Contacted → Demo booked → Won / Not a fit).
+
+The visitor sees an error only when **both** fail; one failure alone is logged in
+Vercel → Logs and the lead still lands. "Email alert sent" unchecked on a row means
+the email failed and that row is the only record. Column names in `lib/leads.ts` must
+match the database exactly — rename a column there, rename it here. The form's
+"How many volunteers?" values match the plan walls (25 / 100 / 250 / 1,000) and carry
+no commas, because Notion select options can't contain them.
+
+## Brand assets
+
+The logo is Sean's design (2026-10-26): the wordmark "envolv" with the **Embrace ring**
+— a teal ring with a gold arc — as the "o". Sources (his PNGs) are in `brand-src/`;
+`public/brand/` holds the vector versions traced from them:
+
+| File | Use |
+|------|-----|
+| `envolv-logo-dark.svg` | White letters — dark backgrounds (the site header/footer) |
+| `envolv-logo-light.svg` | Emerald letters — light backgrounds (docs, email, OG image) |
+| `envolv-mark.svg` | The ring alone — avatars, app icon, favicon |
+
+Favicons, the Apple touch icon and the social share image are Next.js file
+conventions in `app/` (`favicon.ico`, `icon.svg`, `apple-icon.png`,
+`opengraph-image.png`, `twitter-image.png`); `app/robots.ts` and `app/sitemap.ts`
+generate `/robots.txt` and `/sitemap.xml` from `SITE_URL` in `lib/content.ts`.
+
+## Hero badge
+
+The "Live today at a free medical clinic" pill above the headline is switched off
+(`HERO_BADGE.show = false` in `lib/content.ts`) as of 2026-10-26, at Sean's request.
+It's scheduled to come back on **2026-11-23** — flip `show` back to `true`.
+
 ## What's not here yet
 
-- **B3** — persisting leads (Supabase table or Resend audience). Today a demo request
-  is an email and nothing else; if the send fails, the lead is gone.
-- **B4** — OG image, `robots.txt`, `sitemap.xml`. Basic metadata is in `app/layout.tsx`.
+- **B2** — DNS: envolv.app + www → this Vercel project; envolv.org → redirect. Needs
+  the domains shared to Sean's Namecheap login, and the trademark question (L7) settled.
