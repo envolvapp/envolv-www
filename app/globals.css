@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Envolv brand palette. Canonical definition — see BRAND.md.
+
+   Navy #1b2a4b · Emerald #01887a · Gold #f7b846 · Teal #00acc2
+
+   The four brand colors are the anchors; every other stop is a
+   tint or shade derived from them so the site can hit WCAG AA
+   without inventing off-brand hues.
+
+   Roles:
+     ink-*     navy — page surfaces, borders, body text
+     brand-*   emerald — primary actions, checkmarks, icons
+     teal-*    teal — links, highlights, secondary emphasis
+     accent-*  gold — badges, "most popular", "save 17%"
+   ───────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Navy — the surface + text ramp. 800 is the brand navy itself. */
+  --color-ink-50: #f5f7fa;
+  --color-ink-100: #dde3ed;
+  --color-ink-200: #c3ccdc;
+  --color-ink-300: #a8b5cd;
+  --color-ink-400: #7d8fb3;
+  --color-ink-600: #3c5182;
+  --color-ink-700: #2a3c63;
+  --color-ink-800: #1b2a4b; /* BRAND navy */
+  --color-ink-900: #14203a;
+  --color-ink-950: #0d1526;
+
+  /* Emerald — primary action. 500 is the brand emerald.
+     Buttons fill with 600, not 500: white on #01887a is 4.37:1, which
+     misses AA for small text by a hair. 600 gets 6.5:1 and hovers up to
+     the true brand color. Deliberate, not a typo. */
+  --color-brand-100: #cdeeea;
+  --color-brand-300: #6fd8cb;
+  --color-brand-400: #2dbfaf;
+  --color-brand-500: #01887a; /* BRAND emerald */
+  --color-brand-600: #016b60;
+  --color-brand-700: #01554d;
+
+  /* Teal — accent. 6.7:1 on the navy background, so it's safe for text. */
+  --color-teal-300: #7fdcea;
+  --color-teal-400: #29c2d6;
+  --color-teal-500: #00acc2; /* BRAND teal */
+
+  /* Gold — emphasis. 10.4:1 on navy; the loudest thing on the page, so
+     it's rationed to badges only. */
+  --color-accent-400: #f9c96e;
+  --color-accent-500: #f7b846; /* BRAND gold */
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink-950);
+  color: var(--color-ink-100);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
