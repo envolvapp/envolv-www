@@ -29,7 +29,7 @@ Copy `.env.example` → `.env.local`. Set the same vars on the Vercel project.
 | `DEMO_NOTIFY_EMAILS` | yes | Comma-separated. Every demo request goes to all of them. Adding a founder = an env var edit, no code change. |
 | `NOTION_TOKEN` | recommended | Secret of the "envolv-www leads" Notion integration. Saves each demo request as a row in **Website Leads**. Missing → leads are email-only. |
 | `NOTION_LEADS_DATA_SOURCE_ID` | recommended | Data source id of the Website Leads database (`c38d2ca0-…`, see Vercel). |
-| `NEXT_PUBLIC_DEMO_URL` | no | Where "See it live" points. Defaults to `https://envolv-demo.vercel.app`. |
+| `NEXT_PUBLIC_DEMO_URL` | no | Base URL of the demo app that `/demo` sends visitors into. Defaults to `https://envolv-demo.vercel.app`. |
 
 > ⚠️ `NEXT_PUBLIC_DEMO_URL` is the **only** `NEXT_PUBLIC_*` var here, and that is
 > on purpose. In the `medvolunteer` repo, build-time inlining of `NEXT_PUBLIC_*`
@@ -115,6 +115,26 @@ Favicons, the Apple touch icon and the social share image are Next.js file
 conventions in `app/` (`favicon.ico`, `icon.svg`, `apple-icon.png`,
 `opengraph-image.png`, `twitter-image.png`); `app/robots.ts` and `app/sitemap.ts`
 generate `/robots.txt` and `/sitemap.xml` from `SITE_URL` in `lib/content.ts`.
+
+## Live demo (`/demo`)
+
+"See it live" and "Try the live demo" go to **`/demo`** on this site: an optional
+email box and two buttons — the coordinator dashboard, and the volunteer app (which
+opens in a phone-sized window on a desktop; there's also a QR code for phones).
+The buttons go to `${NEXT_PUBLIC_DEMO_URL}/api/demo/enter?as=admin|volunteer`, where
+the demo app signs the visitor in with no password.
+
+The demo app itself is the medvolunteer repo built with `NEXT_PUBLIC_DEMO_MODE=1` on
+the `envolv-demo` Vercel project, against a fictional "City Free Clinic" database that
+resets every night — see `web/lib/demo.ts` and `supabase/demo/README.md` there.
+
+If the visitor types an email, `app/demo/actions.ts` records it the same two ways as a
+demo request: an email to the founders and a **Website Leads** row with Source
+**Live demo**. It never blocks them from getting in.
+
+⚠️ As of 2026-10-29 the demo app is still behind Vercel's login (Sean's call), so
+only the Vercel team can actually get in. Making it public = turning off Vercel
+Authentication on the `envolv-demo` project (or giving it a custom domain).
 
 ## Hero badge
 

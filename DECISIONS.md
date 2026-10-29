@@ -79,3 +79,21 @@ Sean supplied the final brand as three PNGs (ring icon, lockup with "Get involve
 (potrace), so the logo stays sharp at any size and weighs a few KB. The text "Envolv"
 placeholder in the header and footer is gone. The share image uses the light lockup
 on white with the tagline "Get involved." and the free-tier line from `content.ts`.
+
+## 2026-10-29 — Live demo: no login, optional email, shared sandbox
+
+"See it live" used to drop visitors on the old MedVolunteer login screen. Now `/demo`
+sends them into the real app with no login (Sean, 2026-10-29). Choices:
+
+- **Optional email, not a gate.** A required email gets more leads but fewer people
+  actually try the product. The email box is there; the buttons work without it.
+- **One shared sandbox, reset nightly** rather than a private copy per visitor —
+  per-visitor sandboxes would mean provisioning data on every click. Visitors may see
+  each other's edits during the day; nothing they do sends email or reaches a real
+  person, uploads are off, and the database resets at 08:00 UTC.
+- **A fictional clinic** ("City Free Clinic"), because the app's roles, onboarding and
+  training are clinic-shaped today. When the multi-industry platform exists, the demo
+  should follow it.
+- **Still private** until Sean decides to open it: the demo app stays behind Vercel
+  Authentication for now, so this page only fully works for the Vercel team.
+

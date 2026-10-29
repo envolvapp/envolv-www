@@ -25,6 +25,8 @@ export type Lead = {
   notes: string
   /** false = the notification email failed, so this row is the only record */
   emailSent: boolean
+  /** The "Source" select. Defaults to the demo-request form. */
+  source?: 'Website demo form' | 'Live demo'
 }
 
 // Notion caps a single rich-text segment at 2,000 characters.
@@ -47,7 +49,7 @@ export async function saveLead(lead: Lead): Promise<SendResult> {
     Email: { email: lead.email },
     'Using today': { rich_text: richText(lead.notes) },
     'Email alert sent': { checkbox: lead.emailSent },
-    Source: { select: { name: 'Website demo form' } },
+    Source: { select: { name: lead.source ?? 'Website demo form' } },
   }
   if (lead.vertical) properties.Industry = { select: { name: lead.vertical } }
   if (lead.size) properties.Volunteers = { select: { name: lead.size } }

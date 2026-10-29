@@ -37,6 +37,12 @@
  * are not marked. When a feature ships, delete its `soon`.
  */
 
+/**
+ * Base URL of the demo APP (medvolunteer in demo mode). Visitors reach it via
+ * this site's /demo page, which links to `${DEMO_URL}/api/demo/enter?as=…` —
+ * the app signs them in with no password. Inlined at build time (the QR code
+ * on /demo is rendered from it), so changing it needs a redeploy.
+ */
 export const DEMO_URL =
   process.env.NEXT_PUBLIC_DEMO_URL ?? 'https://envolv-demo.vercel.app'
 

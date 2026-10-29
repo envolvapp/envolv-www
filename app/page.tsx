@@ -24,7 +24,6 @@ import SoonBadge from '@/components/SoonBadge'
 import {
   COMPARISON,
   CONTACT_EMAIL,
-  DEMO_URL,
   FEATURES,
   HERO_BADGE,
   VERTICALS,
@@ -137,9 +136,7 @@ export default function Home() {
                 <ArrowRight className="size-4" aria-hidden="true" />
               </a>
               <a
-                href={DEMO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/demo"
                 className="inline-flex items-center justify-center gap-2 rounded-lg border border-ink-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-teal-500 hover:text-teal-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
               >
                 See it live
@@ -361,14 +358,12 @@ export default function Home() {
               <p className="mt-8 text-sm text-ink-400">
                 In a hurry?{' '}
                 <a
-                  href={DEMO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/demo"
                   className="font-medium text-teal-500 underline underline-offset-4 hover:text-teal-400"
                 >
-                  Poke around the live demo
+                  Try the live demo
                 </a>{' '}
-                — real software, fake volunteers.
+                — real software, no signup.
               </p>
             </div>
 
