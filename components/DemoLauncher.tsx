@@ -2,19 +2,22 @@
 
 import { useState } from 'react'
 import { ArrowRight, LayoutDashboard, Smartphone } from 'lucide-react'
-import { recordDemoVisit } from '@/app/demo/actions'
+import { recordDemoVisit } from '@/app/actions'
+import type { Lang } from '@/lib/content'
+import { COPY } from '@/lib/copy'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 const inputClass =
-  'w-full rounded-lg border border-ink-600 bg-ink-950/60 px-3.5 py-2.5 text-sm text-white placeholder:text-ink-400 focus:border-teal-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-teal-500'
+  'w-full rounded-lg border border-ink-600 bg-ink-950/60 px-3.5 py-2.5 text-sm text-heading placeholder:text-ink-400 focus:border-teal-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-teal-500'
 
 /**
  * Optional email + the two ways into the demo app. The volunteer app opens in
  * a phone-sized window on a desktop (it's built for phones); everything else
  * navigates normally.
  */
-export default function DemoLauncher({ appUrl }: { appUrl: string }) {
+export default function DemoLauncher({ appUrl, lang }: { appUrl: string; lang: Lang }) {
+  const t = COPY[lang].launcher
   const [email, setEmail] = useState('')
   const [honeypot, setHoneypot] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -24,7 +27,7 @@ export default function DemoLauncher({ appUrl }: { appUrl: string }) {
     setError(null)
     const address = email.trim()
     if (address && !EMAIL_RE.test(address)) {
-      setError('That email doesn’t look right — fix it, or leave the box empty.')
+      setError(t.badEmail)
       return
     }
     const url = `${appUrl}/api/demo/enter?as=${view}`
@@ -53,7 +56,7 @@ export default function DemoLauncher({ appUrl }: { appUrl: string }) {
     <div className="space-y-6">
       <div>
         <label htmlFor="demo-email" className="mb-1.5 block text-sm font-medium text-ink-200">
-          Your email <span className="text-ink-400">(optional)</span>
+          {t.email} <span className="text-ink-400">{t.optional}</span>
         </label>
         <input
           id="demo-email"
@@ -63,10 +66,10 @@ export default function DemoLauncher({ appUrl }: { appUrl: string }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className={inputClass}
-          placeholder="jane@shelter.org"
+          placeholder={COPY[lang].form.emailPh}
         />
         <p className="mt-1.5 text-xs text-ink-400">
-          Leave it and one of the founders will follow up once. No list, no drip campaign.
+          {t.emailHint}
         </p>
         {/* Honeypot — hidden from people, irresistible to bots. */}
         <div aria-hidden="true" className="absolute h-0 w-0 overflow-hidden">
@@ -82,7 +85,7 @@ export default function DemoLauncher({ appUrl }: { appUrl: string }) {
       </div>
 
       {error && (
-        <p role="alert" className="rounded-lg border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-200">
+        <p role="alert" className="rounded-lg border border-red-500/40 bg-red-500/10 p-3 text-sm text-error">
           {error}
         </p>
       )}
@@ -95,12 +98,12 @@ export default function DemoLauncher({ appUrl }: { appUrl: string }) {
           className="group flex flex-col items-start gap-2 rounded-xl border border-brand-500/50 bg-brand-500/10 p-5 text-left transition-colors hover:border-brand-400 hover:bg-brand-500/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 disabled:cursor-wait disabled:opacity-70"
         >
           <LayoutDashboard className="size-5 text-brand-400" aria-hidden="true" />
-          <span className="font-semibold text-white">Coordinator dashboard</span>
+          <span className="font-semibold text-heading">{t.adminTitle}</span>
           <span className="text-sm leading-relaxed text-ink-200">
-            Volunteers, shifts, onboarding, hours, messages and reports.
+            {t.adminBody}
           </span>
           <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400">
-            {opening === 'admin' ? 'Opening…' : 'Open the dashboard'}
+            {opening === 'admin' ? t.opening : t.adminOpen}
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </span>
         </button>
@@ -112,12 +115,12 @@ export default function DemoLauncher({ appUrl }: { appUrl: string }) {
           className="group flex flex-col items-start gap-2 rounded-xl border border-ink-600 bg-ink-900/60 p-5 text-left transition-colors hover:border-teal-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 disabled:cursor-wait disabled:opacity-70"
         >
           <Smartphone className="size-5 text-teal-400" aria-hidden="true" />
-          <span className="font-semibold text-white">Volunteer app</span>
+          <span className="font-semibold text-heading">{t.volTitle}</span>
           <span className="text-sm leading-relaxed text-ink-200">
-            What Elena, one of the clinic’s volunteers, sees on her phone.
+            {t.volBody}
           </span>
           <span className="mt-1 inline-flex items-center gap-1.5 text-sm font-semibold text-teal-400">
-            {opening === 'volunteer' ? 'Opening…' : 'Open the volunteer app'}
+            {opening === 'volunteer' ? t.opening : t.volOpen}
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </span>
         </button>

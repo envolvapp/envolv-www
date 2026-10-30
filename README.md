@@ -1,6 +1,7 @@
 # envolv-www
 
-The envolv.app marketing site. One-page landing + demo-request capture.
+The envolv.org marketing site — English at `/`, Spanish at `/es`, light or dark to
+match the visitor's system setting. One landing page + a live-demo page + demo-request capture.
 
 This is **Workstream B** of the Envolv roadmap (`ROADMAP.md` in the `medvolunteer`
 repo). It is deliberately a separate repo — see [DECISIONS.md](./DECISIONS.md).
@@ -29,6 +30,9 @@ Copy `.env.example` → `.env.local`. Set the same vars on the Vercel project.
 | `DEMO_NOTIFY_EMAILS` | yes | Comma-separated. Every demo request goes to all of them. Adding a founder = an env var edit, no code change. |
 | `NOTION_TOKEN` | recommended | Secret of the "envolv-www leads" Notion integration. Saves each demo request as a row in **Website Leads**. Missing → leads are email-only. |
 | `NOTION_LEADS_DATA_SOURCE_ID` | recommended | Data source id of the Website Leads database (`c38d2ca0-…`, see Vercel). |
+| `RESEND_WEBHOOK_SECRET` | for support@ | Signing secret of the Resend webhook that calls `/api/inbound` (Resend → Webhooks → the `inbox.email.received` one, `whsec_…`). |
+| `RESEND_INBOX_API_KEY` | for support@ | A **full-access** Resend key — reading a received message needs it. Separate from `RESEND_API_KEY`, which stays sending-only. |
+| `SUPPORT_FORWARD_TO` | no | Comma-separated; who gets support@ mail. Defaults to `DEMO_NOTIFY_EMAILS`. |
 | `NEXT_PUBLIC_DEMO_URL` | no | Base URL of the demo app that `/demo` sends visitors into. Defaults to `https://envolv-demo.vercel.app`. |
 
 > ⚠️ `NEXT_PUBLIC_DEMO_URL` is the **only** `NEXT_PUBLIC_*` var here, and that is
@@ -52,11 +56,33 @@ in `lib/content.ts`, not scattered through JSX. Every number there traces to a
 founder doc in the medvolunteer repo root (`volunteer-saas-business-plan-v2.pdf`,
 `industry-targeting-strategy.pdf`). Change the doc, change `content.ts`.
 
-**Nothing is sold as shipping before it ships.** A plan feature the product can't
-do yet is written `soon('…')` in `content.ts` (and a comparison row gets
-`envolvSoon: true`); both render a "Soon" badge with a dashed icon instead of a
-checkmark. When a feature lands in the app, delete the `soon` — that's the whole
-release step for the marketing site. The audit behind the current list is in the
+**Pricing cards list only what ships today** (2026-10-30 — this replaced the
+"Soon" badges). A roadmap feature is not on the site at all until it's live in the
+app; when it lands, add it to its tier in `content.ts`.
+
+**Both languages live in the same file.** Every visible claim in `content.ts` is an
+`{ en, es }` pair, and the interface copy (headings, buttons, form labels) is in
+`lib/copy.ts`. Change a sentence in one language, change it in the other. Prices,
+limits and seat counts are plain numbers, so they can't drift between languages.
+The Spanish uses "tú", like the Envolv apps, and still needs a native speaker's read
+(ROADMAP B6).
+
+## Languages, routes and color scheme
+
+- `app/(en)/` and `app/(es)/es/` are two route groups, each with its **own root
+  layout**, so the static HTML ships with the right `<html lang>`. Both render the
+  same `components/HomePage.tsx` / `components/DemoPage.tsx` with a `lang` prop.
+  A new page = add it under both groups (and to `app/sitemap.ts`).
+- `LangSwitch` (header + footer) links to the same page in the other language; every
+  page carries `hreflang` alternates (`lib/metadata.ts`). There is no automatic
+  redirect by browser language — that would hide one version from search engines.
+- The demo form sends a hidden `lang` field, so error messages come back in the
+  visitor's language and Spanish leads are tagged `[Spanish site]` in Notion.
+- **Light/dark** follows `prefers-color-scheme`. `app/globals.css` re-points the same
+  `ink-*`/`teal-*`/`accent-*` tokens for light mode, so components don't need `dark:`
+  classes. Use `text-heading` for headings (flips) and `text-on-brand` on emerald
+  buttons (always white) — never `text-white`. The logo swaps between
+  `envolv-logo-light.svg` and `-dark.svg` (`components/Logo.tsx`). The audit behind the current list is in the
 header comment of `content.ts`.
 
 ## Deploying
@@ -73,14 +99,34 @@ and blocked every deploy for ~10 weeks. Check it if the project is ever recreate
 Committing from Sean's machine: write the message to `.claude/commit-msg.txt`, then
 run `.claude/git-push.bat` (native Windows git; output in `.claude/git-out.log`).
 
-DNS (envolv.app + www, envolv.org → redirect) is roadmap item **B2** and needs Sean.
+DNS (envolv.org + www → this project) is roadmap item **B2** and needs Sean. envolv.app
+is reserved for the product (the company hub, with each client beneath it).
 
 ## Contact address
 
-`hello@envolv.app` (`CONTACT_EMAIL` in `lib/content.ts`) is a Namecheap email-forwarding
-alias that fans out to the three co-founders. It is **not** `@envolv.org` on purpose:
-envolv.org's MX records belong to Resend (sending from `noreply@envolv.org` depends on
-them), and switching that domain to Namecheap forwarding would replace them.
+**`support@envolv.org`** (`CONTACT_EMAIL` in `lib/content.ts`) is the one public address
+(all-hands 2026-10-30). It's a **Resend inbox** — envolv.org's root MX already points at
+Resend inbound, so no DNS change was needed. A routing agent on the inbox forwards each
+new message to the three co-founders; answer from the inbox in the Resend dashboard
+(sign in as emailseanmcneal) so the reply goes out as support@ and stays threaded.
+
+**The relay** (`app/api/inbound/route.ts`): a Resend webhook (`inbox.email.received`)
+calls `/api/inbound`; the route checks the signature, fetches the message body, and
+emails a copy to the co-founders with **Reply-To = the original sender**, so hitting
+Reply in Gmail answers the customer directly. Founders' own mail to support@ is never
+relayed (no loops), and a retried webhook can't double-send (Idempotency-Key). To have
+replies come *from* support@envolv.org instead of a personal Gmail, add it in Gmail →
+Settings → Accounts → "Send mail as", SMTP `smtp.resend.com`, port 465, user `resend`,
+password = a sending-only Resend key.
+
+The webhook points at `https://envolv.org/api/inbound` and is **disabled until B2**:
+envolv-www.vercel.app sits behind Vercel Authentication, which would 401 Resend.
+After DNS: set the two env vars above, redeploy, enable the webhook in Resend, and
+send a test to support@. Until then support@ mail waits in the Resend inbox.
+
+Don't move envolv.org's mail to Namecheap forwarding: that replaces **all** its MX
+records, including the `send` MX that `noreply@envolv.org` depends on. The old
+`hello@envolv.app` forwarding still works; nothing on the site links to it any more.
 
 ## Where leads go
 
@@ -96,8 +142,9 @@ The visitor sees an error only when **both** fail; one failure alone is logged i
 Vercel → Logs and the lead still lands. "Email alert sent" unchecked on a row means
 the email failed and that row is the only record. Column names in `lib/leads.ts` must
 match the database exactly — rename a column there, rename it here. The form's
-"How many volunteers?" values match the plan walls (25 / 100 / 250 / 1,000) and carry
-no commas, because Notion select options can't contain them.
+"How many volunteers?" values match the plan walls (25 / 100 / 250 / 500 / 750) and carry
+no commas, because Notion select options can't contain them. Values are English on
+both language versions so the Notion options don't fork.
 
 ## Brand assets
 
@@ -107,8 +154,8 @@ The logo is Sean's design (2026-10-26): the wordmark "envolv" with the **Embrace
 
 | File | Use |
 |------|-----|
-| `envolv-logo-dark.svg` | White letters — dark backgrounds (the site header/footer) |
-| `envolv-logo-light.svg` | Emerald letters — light backgrounds (docs, email, OG image) |
+| `envolv-logo-dark.svg` | White letters — dark backgrounds (the site in dark mode) |
+| `envolv-logo-light.svg` | Emerald letters — light backgrounds (the site in light mode, docs, email, OG image) |
 | `envolv-mark.svg` | The ring alone — avatars, app icon, favicon |
 
 Favicons, the Apple touch icon and the social share image are Next.js file
@@ -118,7 +165,7 @@ generate `/robots.txt` and `/sitemap.xml` from `SITE_URL` in `lib/content.ts`.
 
 ## Live demo (`/demo`)
 
-"See it live" and "Try the live demo" go to **`/demo`** on this site: an optional
+"See it live" and "Try the live demo" go to **`/demo`** (or `/es/demo`) on this site: an optional
 email box and two buttons — the coordinator dashboard, and the volunteer app (which
 opens in a phone-sized window on a desktop; there's also a QR code for phones).
 The buttons go to `${NEXT_PUBLIC_DEMO_URL}/api/demo/enter?as=admin|volunteer`, where
@@ -128,7 +175,7 @@ The demo app itself is the medvolunteer repo built with `NEXT_PUBLIC_DEMO_MODE=1
 the `envolv-demo` Vercel project, against a fictional "City Free Clinic" database that
 resets every night — see `web/lib/demo.ts` and `supabase/demo/README.md` there.
 
-If the visitor types an email, `app/demo/actions.ts` records it the same two ways as a
+If the visitor types an email, `recordDemoVisit` in `app/actions.ts` records it the same two ways as a
 demo request: an email to the founders and a **Website Leads** row with Source
 **Live demo**. It never blocks them from getting in.
 
@@ -144,5 +191,7 @@ It's scheduled to come back on **2026-11-23** — flip `show` back to `true`.
 
 ## What's not here yet
 
-- **B2** — DNS: envolv.app + www → this Vercel project; envolv.org → redirect. Needs
-  the domains shared to Sean's Namecheap login, and the trademark question (L7) settled.
+- **B2** — DNS: envolv.org + www → this Vercel project (envolv.app is the product's).
+  Needs the domains shared to Sean's Namecheap login, and the trademark question (L7)
+  settled.
+- **B6** — a native Spanish speaker's read of `/es` before launch.

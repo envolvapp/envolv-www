@@ -1,31 +1,38 @@
 'use client'
 
 import { useState } from 'react'
-import { Check, CircleDashed } from 'lucide-react'
-import { FREE_TIER, TIERS } from '@/lib/content'
+import { Check } from 'lucide-react'
+import {
+  ENTERPRISE,
+  FREE_TIER,
+  PLAN_RULES,
+  TIERS,
+  seatsLabel,
+  volunteersLabel,
+  type Lang,
+} from '@/lib/content'
+import { COPY } from '@/lib/copy'
 import { cn } from '@/lib/utils'
-import SoonBadge from '@/components/SoonBadge'
 
-export default function Pricing() {
+const outlineButton =
+  'shrink-0 rounded-lg border border-ink-600 px-4 py-2.5 text-center text-sm font-semibold text-heading transition-colors hover:border-teal-500 hover:text-teal-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400'
+
+export default function Pricing({ lang }: { lang: Lang }) {
   const [annual, setAnnual] = useState(false)
+  const t = COPY[lang].pricing
 
   return (
     <div>
       <div className="mb-10 flex items-center justify-center gap-4">
-        <span
-          className={cn(
-            'text-sm transition-colors',
-            annual ? 'text-ink-400' : 'text-ink-100',
-          )}
-        >
-          Monthly
+        <span className={cn('text-sm transition-colors', annual ? 'text-ink-400' : 'text-ink-100')}>
+          {t.monthly}
         </span>
 
         <button
           type="button"
           role="switch"
           aria-checked={annual}
-          aria-label="Bill annually and save about 17 percent"
+          aria-label={t.toggleLabel}
           onClick={() => setAnnual((v) => !v)}
           className={cn(
             'relative h-7 w-13 shrink-0 rounded-full border transition-colors',
@@ -35,21 +42,16 @@ export default function Pricing() {
         >
           <span
             className={cn(
-              'absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white transition-all',
+              'absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white shadow-sm transition-all',
               annual ? 'left-[1.6rem]' : 'left-[0.15rem]',
             )}
           />
         </button>
 
-        <span
-          className={cn(
-            'text-sm transition-colors',
-            annual ? 'text-ink-100' : 'text-ink-400',
-          )}
-        >
-          Annually{' '}
+        <span className={cn('text-sm transition-colors', annual ? 'text-ink-100' : 'text-ink-400')}>
+          {t.annually}{' '}
           <span className="rounded-full bg-accent-500/15 px-2 py-0.5 text-xs font-medium text-accent-500">
-            save ~17%
+            {t.save}
           </span>
         </span>
       </div>
@@ -67,66 +69,40 @@ export default function Pricing() {
           >
             {tier.featured && (
               <span className="mb-3 w-fit rounded-full bg-accent-500/15 px-3 py-1 text-xs font-semibold tracking-wide text-accent-500 uppercase">
-                Most popular
+                {t.mostPopular}
               </span>
             )}
 
-            <h3 className="text-lg font-semibold text-white">{tier.name}</h3>
-            <p className="mt-1 text-sm text-ink-400">{tier.tagline}</p>
+            <h3 className="text-lg font-semibold text-heading">{tier.name}</h3>
+            <p className="mt-1 text-sm text-ink-400">{tier.tagline[lang]}</p>
 
-            {tier.custom ? (
-              <>
-                <div className="mt-6 flex items-baseline gap-1">
-                  <span className="text-4xl font-bold tracking-tight text-white">
-                    Custom
-                  </span>
-                </div>
-                <p className="mt-1 h-5 text-xs text-ink-400">
-                  {tier.customNote ?? 'priced for your program'}
-                </p>
-              </>
-            ) : (
-              <>
-                <div className="mt-6 flex items-baseline gap-1">
-                  <span className="text-4xl font-bold tracking-tight text-white tabular-nums">
-                    ${annual ? tier.annualMonthly : tier.monthly}
-                  </span>
-                  <span className="text-sm text-ink-400">/month</span>
-                </div>
-                <p className="mt-1 h-5 text-xs text-ink-400">
-                  {annual ? 'billed annually' : 'billed monthly'}
-                </p>
-              </>
-            )}
+            <div className="mt-6 flex items-baseline gap-1">
+              <span className="text-4xl font-bold tracking-tight text-heading tabular-nums">
+                ${annual ? tier.annualMonthly : tier.monthly}
+              </span>
+              <span className="text-sm text-ink-400">{t.perMonth}</span>
+            </div>
+            <p className="mt-1 h-5 text-xs text-ink-400">
+              {annual ? t.billedAnnually : t.billedMonthly}
+            </p>
 
             <div className="mt-6 space-y-1 border-t border-ink-700 pt-5 text-sm text-ink-200">
-              <p className="font-medium text-white">{tier.volunteers}</p>
-              <p>{tier.seats}</p>
+              <p className="font-medium text-heading">{volunteersLabel(tier.limit, lang)}</p>
+              <p>{seatsLabel(tier.seats, lang)}</p>
             </div>
 
-            <ul className="mt-5 flex-1 space-y-3 text-sm text-ink-200">
-              {tier.features.map((f) =>
-                typeof f === 'string' ? (
-                  <li key={f} className="flex gap-2.5">
-                    <Check
-                      className="mt-0.5 size-4 shrink-0 text-brand-400"
-                      aria-hidden="true"
-                    />
-                    <span>{f}</span>
-                  </li>
-                ) : (
-                  <li key={f.text} className="flex gap-2.5 text-ink-400">
-                    <CircleDashed
-                      className="mt-0.5 size-4 shrink-0 text-ink-600"
-                      aria-hidden="true"
-                    />
-                    <span>
-                      {f.text}
-                      <SoonBadge />
-                    </span>
-                  </li>
-                ),
-              )}
+            {tier.includes && (
+              <p className="mt-5 text-xs font-semibold tracking-wide text-ink-400 uppercase">
+                {tier.includes[lang]}
+              </p>
+            )}
+            <ul className={cn('flex-1 space-y-3 text-sm text-ink-200', tier.includes ? 'mt-3' : 'mt-5')}>
+              {tier.features.map((f) => (
+                <li key={f.en} className="flex gap-2.5">
+                  <Check className="mt-0.5 size-4 shrink-0 text-brand-400" aria-hidden="true" />
+                  <span>{f[lang]}</span>
+                </li>
+              ))}
             </ul>
 
             <a
@@ -135,45 +111,50 @@ export default function Pricing() {
                 'mt-7 rounded-lg px-4 py-2.5 text-center text-sm font-semibold transition-colors',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400',
                 tier.featured
-                  ? 'bg-brand-600 text-white hover:bg-brand-500'
-                  : 'border border-ink-600 text-white hover:border-teal-500 hover:text-teal-400',
+                  ? 'bg-brand-600 text-on-brand hover:bg-brand-500'
+                  : 'border border-ink-600 text-heading hover:border-teal-500 hover:text-teal-400',
               )}
             >
-              {tier.custom ? "Let's talk" : 'Request a demo'}
+              {COPY[lang].requestDemo}
             </a>
           </div>
         ))}
       </div>
 
-      {/* Free plan — the on-ramp, rendered as a strip rather than a fifth card */}
-      <div className="mt-6 flex flex-col items-start justify-between gap-4 rounded-2xl border border-dashed border-ink-600 bg-ink-900/30 p-6 sm:flex-row sm:items-center">
+      {/* Enterprise — above the top wall, priced per program */}
+      <div className="mt-6 flex flex-col items-start justify-between gap-4 rounded-2xl border border-ink-700 bg-ink-900/50 p-6 sm:flex-row sm:items-center">
         <div>
-          <p className="font-semibold text-white">
-            {FREE_TIER.name} — $0/month
-            <span className="ml-3 font-normal text-ink-200">
-              {FREE_TIER.volunteers} · {FREE_TIER.seats}
-            </span>
+          <p className="font-semibold text-heading">
+            {ENTERPRISE.name} — {t.custom}, {t.from(ENTERPRISE.floor)}
+            <span className="ml-3 font-normal text-ink-200">{t.over(ENTERPRISE.over)}</span>
           </p>
-          <p className="mt-1 text-sm text-ink-400">{FREE_TIER.blurb}</p>
+          <p className="mt-1 text-sm text-ink-400">
+            {ENTERPRISE.tagline[lang]} {ENTERPRISE.summary[lang]}
+          </p>
         </div>
-        <a
-          href="#demo"
-          className="shrink-0 rounded-lg border border-ink-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-teal-500 hover:text-teal-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
-        >
-          Request a free account
+        <a href="#demo" className={outlineButton}>
+          {t.letsTalk}
         </a>
       </div>
 
-      <p className="mt-8 text-center text-sm text-ink-400">
-        Every plan includes the volunteer mobile app, the self-service portal, and
-        bilingual EN/ES. No setup fees, no contracts. Limits count active
-        volunteers — archived profiles are always free.
-      </p>
-      <p className="mx-auto mt-2 max-w-2xl text-center text-sm text-ink-400">
-        Items marked
-        <SoonBadge className="mr-1.5 ml-1.5" />
-        are on our roadmap and not live yet. Ask on your demo and we&apos;ll tell
-        you exactly where each one stands.
+      {/* Free plan — the on-ramp, rendered as a strip rather than a card */}
+      <div className="mt-4 flex flex-col items-start justify-between gap-4 rounded-2xl border border-dashed border-ink-600 bg-ink-900/30 p-6 sm:flex-row sm:items-center">
+        <div>
+          <p className="font-semibold text-heading">
+            {FREE_TIER.name} — {t.free}
+            <span className="ml-3 font-normal text-ink-200">
+              {volunteersLabel(FREE_TIER.limit, lang)} · {seatsLabel(FREE_TIER.seats, lang)}
+            </span>
+          </p>
+          <p className="mt-1 text-sm text-ink-400">{FREE_TIER.blurb[lang]}</p>
+        </div>
+        <a href="#demo" className={outlineButton}>
+          {t.requestFree}
+        </a>
+      </div>
+
+      <p className="mx-auto mt-8 max-w-3xl text-center text-sm text-ink-400">
+        {PLAN_RULES.includes[lang]} {PLAN_RULES.counting[lang]}
       </p>
     </div>
   )

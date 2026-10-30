@@ -39,6 +39,14 @@ Contrast on the navy background (`#0d1526`), for reference: teal **6.7:1**, gold
 **10.4:1**, `ink-400` muted text **5.6:1** — all pass AA. Brand emerald as *text* is
 only 4.2:1, so it's used for icons and fills, not for body copy.
 
+## Light mode (2026-10-30)
+
+The site follows the visitor's light/dark setting. Light mode re-points the same
+tokens in `app/globals.css` (`@media (prefers-color-scheme: light)`): the ink ramp
+inverts (page `#ffffff`, raised surfaces `#eef2f7`, headings `#14203a`), and the
+three accents darken for text on white — emerald icons `#017a6d`, teal `#00788a`,
+gold badge text `#8a5a00`. Buttons keep `brand-600` with white text in both modes.
+
 ## Porting to the other repos
 
 `medvolunteer` and the multi-tenant platform should adopt these same four anchors when

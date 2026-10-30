@@ -39,6 +39,8 @@ sourced comparisons are defensible; unsourced superlatives are not.
 
 ## 2026-10-26 — Unbuilt features are labeled "Soon", not hidden and not implied
 
+*Superseded 2026-10-30 — see "Pricing cards list only what ships" below.*
+
 An audit against the medvolunteer app found the pricing cards selling things the
 product doesn't do: SMS, push, industry templates, kiosk mode, the API, roles,
 brand colors, white-label, multi-org, SSO, a background-check provider integration,
@@ -97,3 +99,43 @@ sends them into the real app with no login (Sean, 2026-10-29). Choices:
 - **Still private** until Sean decides to open it: the demo app stays behind Vercel
   Authentication for now, so this page only fully works for the Vercel team.
 
+## 2026-10-30 — envolv.org is the marketing site; envolv.app is the product
+
+First all-hands. The web structure is: **envolv.org** = this marketing site,
+**envolv.org/demo** = the public demo, **envolv.app** = the Envolv product — a company
+dashboard/hub with each client (Yakima, Cornell, the next ones) beneath it. `SITE_URL`,
+canonical URLs, the sitemap and share metadata now point at envolv.org. B2's DNS step
+flips accordingly: envolv.org (+ www) → this Vercel project.
+
+## 2026-10-30 — Pricing cards list only what ships
+
+The all-hands asked for every "Soon" feature to come off the pricing tiers. They're
+gone — not badged, gone — and so is the `soon()` helper and the `SoonBadge`
+component. This reverses the 2026-10-26 call above: the team would rather the cards
+look thinner than read as a roadmap. Rule now: a feature appears on the site the day
+it ships, in the tier it belongs to. Hand-delivered services (support, onboarding
+calls, data migration, a CSM) count as shipped.
+
+Same meeting, new ladder: Free ≤25 / Starter $29 ≤100 / Growth $59 ≤250 /
+Professional $89 ≤500 / **Premier $129 ≤750** (new) / Enterprise from $199 above 750.
+Limits now count **everyone on file, applicants included**; archived profiles are
+free for up to a year, then deleted after 30 days' notice and an export. The cards
+are cumulative ("Everything in Growth, plus"), Enterprise moved to a strip under the
+four cards like Free, and the comparison table's 1,000-volunteer row became a
+500-volunteer row (the new Professional wall). Premier's one extra line — help
+importing existing records — is a hand-delivered service; confirm the team wants to
+promise it at that tier.
+
+## 2026-10-30 — Spanish version and light/dark mode
+
+- **Spanish at `/es`**, same pages, same components, a `lang` prop. Two route groups
+  with their own root layouts rather than a middleware rewrite: the HTML stays fully
+  static and `<html lang>` is right without reading headers. No auto-redirect by
+  browser language (search engines would only ever see one version); a visible
+  English/Español switch and `hreflang` alternates instead. Plan names (Starter,
+  Growth…) stay English in both, to match invoices and contracts.
+- **Light/dark follows the visitor's system setting.** The site was dark-only. Rather
+  than sprinkle `dark:` classes through every component, `globals.css` re-points the
+  existing color tokens inside `@media (prefers-color-scheme: light)`; every text stop
+  was checked for WCAG AA on both light surfaces. Two semantic tokens replace
+  `text-white`: `text-heading` (flips) and `text-on-brand` (stays white on emerald).

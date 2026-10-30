@@ -1,6 +1,7 @@
 'use server'
 
-import { CONTACT_EMAIL } from '@/lib/content'
+import { CONTACT_EMAIL, type Lang } from '@/lib/content'
+import { COPY } from '@/lib/copy'
 import { notifyRecipients, sendEmail } from '@/lib/email'
 import { saveLead } from '@/lib/leads'
 import type { DemoRequestState } from '@/lib/types'
@@ -24,12 +25,14 @@ export async function requestDemo(
   const vertical = (formData.get('vertical') as string | null)?.trim() ?? ''
   const size = (formData.get('size') as string | null)?.trim() ?? ''
   const notes = (formData.get('notes') as string | null)?.trim() ?? ''
+  const lang: Lang = formData.get('lang') === 'es' ? 'es' : 'en'
+  const t = COPY[lang].actions
 
   if (!name || !email || !org) {
-    return { status: 'error', message: 'Name, email, and organization are required.' }
+    return { status: 'error', message: t.required }
   }
   if (!EMAIL_RE.test(email)) {
-    return { status: 'error', message: 'That email address does not look right.' }
+    return { status: 'error', message: t.badEmail }
   }
 
   // Two independent records of every lead: the founders' inbox and the
@@ -46,11 +49,12 @@ export async function requestDemo(
       `Organization: ${org}`,
       `Vertical:     ${vertical || '—'}`,
       `Volunteers:   ${size || '—'}`,
+      `Language:     ${lang === 'es' ? 'Spanish (visited envolv.org/es)' : 'English'}`,
       '',
       'Notes:',
       notes || '—',
       '',
-      `Received ${new Date().toISOString()} via envolv.app`,
+      `Received ${new Date().toISOString()} via envolv.org${lang === 'es' ? '/es' : ''}`,
     ].join('\n'),
   })
 
@@ -60,7 +64,7 @@ export async function requestDemo(
     org,
     vertical,
     size,
-    notes,
+    notes: lang === 'es' ? `[Spanish site] ${notes}`.trim() : notes,
     emailSent: emailResult.ok,
   })
 
@@ -72,12 +76,58 @@ export async function requestDemo(
     // Nothing captured the lead — show the visitor something they can act on.
     return {
       status: 'error',
-      message: `We couldn't submit that just now. Email us at ${CONTACT_EMAIL} and we'll set the demo up directly.`,
+      message: t.failed(CONTACT_EMAIL),
     }
   }
 
   return {
     status: 'ok',
-    message: "Got it — we'll be in touch within one business day.",
+    message: t.ok,
   }
+}
+
+/**
+ * Optional email capture on /demo. Called only when the visitor typed an
+ * address; it never blocks them from getting into the demo, so failures are
+ * logged, not shown. Same two records as a demo request: an email to the
+ * founders and a row in Website Leads (Source = "Live demo").
+ */
+export async function recordDemoVisit(input: {
+  email: string
+  view: 'admin' | 'volunteer'
+  company_website?: string
+}): Promise<void> {
+  // Honeypot — a person never fills a field they can't see.
+  if (input.company_website?.trim()) return
+
+  const email = input.email.trim().slice(0, 254)
+  if (!EMAIL_RE.test(email)) return
+  const what = input.view === 'volunteer' ? 'volunteer app' : 'coordinator dashboard'
+
+  const emailResult = await sendEmail({
+    to: notifyRecipients(),
+    replyTo: email,
+    subject: `Live demo visitor — ${email}`,
+    body: [
+      `${email} opened the ${what} in the live demo.`,
+      '',
+      'They only gave an email — no name or organization. Reply to this message to reach them.',
+      '',
+      `Received ${new Date().toISOString()} via envolv.org/demo`,
+    ].join('\n'),
+  })
+
+  const leadResult = await saveLead({
+    name: '',
+    email,
+    org: `Demo visitor — ${email}`,
+    vertical: '',
+    size: '',
+    notes: `Opened the ${what} in the live demo.`,
+    emailSent: emailResult.ok,
+    source: 'Live demo',
+  })
+
+  if (!emailResult.ok) console.error('[demo-visit] email failed:', emailResult.error)
+  if (!leadResult.ok) console.error('[demo-visit] Notion save failed:', leadResult.error)
 }

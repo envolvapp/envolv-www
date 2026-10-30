@@ -1,0 +1,301 @@
+/**
+ * Interface copy — headings, buttons, labels — in English and Spanish.
+ * Claims (prices, limits, competitor figures, verticals) live in content.ts;
+ * this file is the words around them. Spanish uses "tú", like the Envolv apps.
+ *
+ * The Spanish was written 2026-10-30 without a native-speaker pass — have one
+ * read it before the site goes public (ROADMAP B6).
+ */
+import type { Lang } from '@/lib/content'
+
+const en = {
+  meta: {
+    title: 'Envolv — Volunteer management that volunteers actually use',
+    description:
+      'Mobile-first volunteer management for shelters, food banks, nonprofits, museums, and clinics. Scheduling, hour tracking, onboarding, and messaging. Free up to 25 volunteers; paid plans from $29/month.',
+    ogDescription:
+      'Mobile-first volunteer scheduling, hour tracking, and onboarding for shelters, food banks, nonprofits, museums, and clinics. Free up to 25 volunteers.',
+    twitterDescription:
+      'Mobile-first volunteer scheduling, hour tracking, and onboarding. Free up to 25 volunteers.',
+    demoTitle: 'Try Envolv — live demo, no signup',
+    demoDescription:
+      'Click around a real Envolv account: the coordinator dashboard and the volunteer app, with a made-up clinic and sample data that resets every night.',
+  },
+  skip: 'Skip to content',
+  backToTop: 'Envolv — back to top',
+  home: 'Envolv home',
+  nav: { features: 'Features', industries: 'Industries', pricing: 'Pricing' },
+  langSwitch: { label: 'Español', title: 'Ver esta página en español', hreflang: 'es' },
+  requestDemo: 'Request a demo',
+  hero: {
+    titleStart: 'Volunteer management your volunteers will',
+    titleHighlight: 'actually use',
+    body: 'The tools running most volunteer programs were designed before the smartphone. Envolv is mobile-first: volunteers claim shifts and clock in from an app on their phone, and reminders go out on their own — while you get the schedule, the hours, and the reports without chasing anyone.',
+    seeLive: 'See it live',
+    stats: [
+      ['Free', 'to start, up to 25 volunteers'],
+      ['6', 'industries we’re built for'],
+      ['EN / ES', 'bilingual by default'],
+      ['0', 'setup fees or contracts'],
+    ] as [string, string][],
+  },
+  features: {
+    title: 'Everything the coordinator does by hand today',
+    body: 'Scheduling, hour tracking, onboarding, and messaging in one place — so the program runs without living inside one person’s inbox.',
+  },
+  industries: {
+    title: 'Not a blank slate you have to configure',
+    body: 'Generic tools hand you an empty database and wish you luck. We set Envolv up around your roles, shifts, and requirements with you.',
+  },
+  comparison: {
+    title: 'Modern software, legacy pricing',
+    body: 'The market makes you choose: modern platforms that lock you into annual contracts north of $143/mo, or 25-year-old software that nickel-and-dimes you per add-on and per admin. Envolv is the modern product without the modern price.',
+    envolv: 'Envolv',
+    modern: 'Modern platforms',
+    legacy: 'Legacy à la carte',
+  },
+  pricing: {
+    title: 'Simple pricing, no surprises',
+    body: 'Pick the tier that matches your volunteer count. Move up or down whenever it changes.',
+    monthly: 'Monthly',
+    annually: 'Annually',
+    save: 'save ~17%',
+    toggleLabel: 'Bill annually and save about 17 percent',
+    mostPopular: 'Most popular',
+    perMonth: '/month',
+    billedMonthly: 'billed monthly',
+    billedAnnually: 'billed annually',
+    custom: 'Custom',
+    from: (n: number) => `from $${n}/month`,
+    over: (n: number) => `More than ${n.toLocaleString('en-US')} volunteers`,
+    letsTalk: 'Let’s talk',
+    free: '$0/month',
+    requestFree: 'Request a free account',
+  },
+  demo: {
+    title: 'See it with your own shifts',
+    body: 'Tell us how your program runs and we’ll walk you through Envolv set up for it — not a canned tour. Twenty minutes, no slide deck.',
+    bullets: [
+      'A live walkthrough of admin + volunteer app',
+      'Envolv set up with your roles and shifts',
+      'A straight answer on whether we fit',
+    ],
+    hurry: 'In a hurry?',
+    tryLive: 'Try the live demo',
+    noSignup: '— real software, no signup.',
+  },
+  form: {
+    name: 'Your name',
+    namePh: 'Jane Rivera',
+    email: 'Work email',
+    emailPh: 'jane@shelter.org',
+    org: 'Organization',
+    orgPh: 'Riverbend Animal Rescue',
+    kind: 'What kind of organization?',
+    size: 'How many volunteers?',
+    sizeHint: 'Applicants count too.',
+    selectOne: 'Select one…',
+    other: 'Something else',
+    under: 'Under',
+    notes: 'What are you using today?',
+    optional: '(optional)',
+    notesPh: 'Spreadsheets, Volgistics, a group text thread…',
+    sending: 'Sending…',
+    submit: 'Request a demo',
+    privacy: 'We’ll only use this to set up your demo. No list, no drip campaign.',
+    received: 'Request received',
+  },
+  footer: { rights: 'All rights reserved.' },
+  live: {
+    eyebrow: 'Live demo',
+    title: 'Try Envolv. No signup.',
+    introStart: 'Click around a real Envolv account for',
+    org: 'City Free Clinic',
+    introEnd:
+      '— a made-up clinic with made-up volunteers. Change anything you like: nothing you do emails a real person, and it all resets every night.',
+    guided: 'Prefer a guided tour?',
+    phoneTitle: 'On your phone',
+    phoneBody: 'The volunteer app is built for phones. Scan to open it there.',
+    qrLabel: 'QR code that opens the Envolv volunteer app demo',
+    tryTitle: 'Things to try',
+    tryThis: [
+      'Approve last week’s volunteer hours in Reports',
+      'Add a shift, then find it in the volunteer app',
+      'Clock in as Elena from her Home screen',
+      'Message every active volunteer at once',
+      'Move an applicant through onboarding',
+    ],
+    sideBySideStart: 'Keep the dashboard open and use',
+    sideBySideButton: 'Open the volunteer app',
+    sideBySideEnd: 'in the green bar to see both sides at once.',
+    appLanguageNote: 'The demo opens in English — switch to Español in the dashboard sidebar or on the app’s Profile tab.',
+  },
+  launcher: {
+    email: 'Your email',
+    optional: '(optional)',
+    emailHint: 'Leave it and one of the founders will follow up once. No list, no drip campaign.',
+    badEmail: 'That email doesn’t look right — fix it, or leave the box empty.',
+    adminTitle: 'Coordinator dashboard',
+    adminBody: 'Volunteers, shifts, onboarding, hours, messages and reports.',
+    adminOpen: 'Open the dashboard',
+    volTitle: 'Volunteer app',
+    volBody: 'What Elena, one of the clinic’s volunteers, sees on her phone.',
+    volOpen: 'Open the volunteer app',
+    opening: 'Opening…',
+  },
+  actions: {
+    required: 'Name, email, and organization are required.',
+    badEmail: 'That email address does not look right.',
+    failed: (contact: string) =>
+      `We couldn't submit that just now. Email us at ${contact} and we'll set the demo up directly.`,
+    ok: 'Got it — we’ll be in touch within one business day.',
+  },
+}
+
+export type Copy = typeof en
+
+const es: Copy = {
+  meta: {
+    title: 'Envolv — Gestión de voluntarios que tus voluntarios sí usan',
+    description:
+      'Gestión de voluntarios pensada para el teléfono, para refugios, bancos de alimentos, organizaciones sin fines de lucro, museos y clínicas. Turnos, registro de horas, incorporación y mensajes. Gratis hasta 25 voluntarios; planes pagos desde $29 al mes.',
+    ogDescription:
+      'Turnos, registro de horas e incorporación de voluntarios desde el teléfono, para refugios, bancos de alimentos, organizaciones, museos y clínicas. Gratis hasta 25 voluntarios.',
+    twitterDescription:
+      'Turnos, registro de horas e incorporación de voluntarios desde el teléfono. Gratis hasta 25 voluntarios.',
+    demoTitle: 'Prueba Envolv — demo en vivo, sin registrarte',
+    demoDescription:
+      'Explora una cuenta real de Envolv: el panel del coordinador y la app para voluntarios, con una clínica ficticia y datos de ejemplo que se restablecen cada noche.',
+  },
+  skip: 'Saltar al contenido',
+  backToTop: 'Envolv — volver arriba',
+  home: 'Inicio de Envolv',
+  nav: { features: 'Funciones', industries: 'Sectores', pricing: 'Precios' },
+  langSwitch: { label: 'English', title: 'View this page in English', hreflang: 'en' },
+  requestDemo: 'Solicita una demo',
+  hero: {
+    titleStart: 'Gestión de voluntarios que tus voluntarios',
+    titleHighlight: 'sí van a usar',
+    body: 'Las herramientas que usan la mayoría de los programas de voluntariado se diseñaron antes del teléfono inteligente. Envolv está hecho para el teléfono: los voluntarios eligen turnos y registran su entrada desde una app, y los recordatorios salen solos — mientras tú tienes el calendario, las horas y los informes sin perseguir a nadie.',
+    seeLive: 'Velo en vivo',
+    stats: [
+      ['Gratis', 'para empezar, hasta 25 voluntarios'],
+      ['6', 'sectores para los que está hecho'],
+      ['EN / ES', 'bilingüe de serie'],
+      ['0', 'cuotas de instalación o contratos'],
+    ],
+  },
+  features: {
+    title: 'Todo lo que el coordinador hoy hace a mano',
+    body: 'Turnos, registro de horas, incorporación y mensajes en un solo lugar — para que el programa no dependa del correo de una sola persona.',
+  },
+  industries: {
+    title: 'No es una hoja en blanco que tengas que configurar',
+    body: 'Las herramientas genéricas te entregan una base de datos vacía y te desean suerte. Nosotros configuramos Envolv contigo, según tus roles, turnos y requisitos.',
+  },
+  comparison: {
+    title: 'Software moderno, precio de antes',
+    body: 'El mercado te obliga a elegir: plataformas modernas con contratos anuales de más de $143 al mes, o software de hace 25 años que te cobra por cada complemento y cada administrador. Envolv es el producto moderno sin el precio moderno.',
+    envolv: 'Envolv',
+    modern: 'Plataformas modernas',
+    legacy: 'Tradicional a la carta',
+  },
+  pricing: {
+    title: 'Precios simples, sin sorpresas',
+    body: 'Elige el plan según tu número de voluntarios. Sube o baja de plan cuando cambie.',
+    monthly: 'Mensual',
+    annually: 'Anual',
+    save: 'ahorra ~17%',
+    toggleLabel: 'Facturación anual con un ahorro de alrededor del 17 por ciento',
+    mostPopular: 'El más popular',
+    perMonth: '/mes',
+    billedMonthly: 'facturación mensual',
+    billedAnnually: 'facturación anual',
+    custom: 'A medida',
+    from: (n: number) => `desde $${n}/mes`,
+    over: (n: number) => `Más de ${n.toLocaleString('en-US')} voluntarios`,
+    letsTalk: 'Hablemos',
+    free: '$0/mes',
+    requestFree: 'Solicita una cuenta gratis',
+  },
+  demo: {
+    title: 'Velo con tus propios turnos',
+    body: 'Cuéntanos cómo funciona tu programa y te mostramos Envolv configurado para él — no un recorrido enlatado. Veinte minutos, sin diapositivas.',
+    bullets: [
+      'Un recorrido en vivo por la app de administración y la de voluntarios',
+      'Envolv configurado con tus roles y turnos',
+      'Una respuesta honesta sobre si somos lo que necesitas',
+    ],
+    hurry: '¿Tienes prisa?',
+    tryLive: 'Prueba la demo en vivo',
+    noSignup: '— software real, sin registrarte.',
+  },
+  form: {
+    name: 'Tu nombre',
+    namePh: 'Juana Rivera',
+    email: 'Correo de trabajo',
+    emailPh: 'juana@refugio.org',
+    org: 'Organización',
+    orgPh: 'Rescate Animal Riverbend',
+    kind: '¿Qué tipo de organización?',
+    size: '¿Cuántos voluntarios?',
+    sizeHint: 'Las solicitudes también cuentan.',
+    selectOne: 'Elige una opción…',
+    other: 'Otro tipo',
+    under: 'Menos de',
+    notes: '¿Qué usan hoy?',
+    optional: '(opcional)',
+    notesPh: 'Hojas de cálculo, Volgistics, un grupo de mensajes…',
+    sending: 'Enviando…',
+    submit: 'Solicita una demo',
+    privacy: 'Solo usaremos esto para preparar tu demo. Sin listas ni campañas de correo.',
+    received: 'Solicitud recibida',
+  },
+  footer: { rights: 'Todos los derechos reservados.' },
+  live: {
+    eyebrow: 'Demo en vivo',
+    title: 'Prueba Envolv. Sin registrarte.',
+    introStart: 'Explora una cuenta real de Envolv para',
+    org: 'City Free Clinic',
+    introEnd:
+      '— una clínica ficticia con voluntarios ficticios. Cambia lo que quieras: nada de lo que hagas le escribe a una persona real, y todo se restablece cada noche.',
+    guided: '¿Prefieres un recorrido guiado?',
+    phoneTitle: 'En tu teléfono',
+    phoneBody: 'La app para voluntarios está hecha para el teléfono. Escanea el código para abrirla ahí.',
+    qrLabel: 'Código QR que abre la demo de la app para voluntarios de Envolv',
+    tryTitle: 'Cosas para probar',
+    tryThis: [
+      'Aprueba las horas de la semana pasada en Informes',
+      'Crea un turno y búscalo en la app para voluntarios',
+      'Registra la entrada como Elena desde su pantalla de inicio',
+      'Envía un mensaje a todos los voluntarios activos a la vez',
+      'Lleva a una persona solicitante por las etapas de incorporación',
+    ],
+    sideBySideStart: 'Deja el panel abierto y usa',
+    sideBySideButton: 'Open the volunteer app',
+    sideBySideEnd: 'en la barra verde para ver los dos lados a la vez.',
+    appLanguageNote: 'La demo se abre en inglés — cambia a Español en la barra lateral del panel o en la pestaña Profile de la app.',
+  },
+  launcher: {
+    email: 'Tu correo',
+    optional: '(opcional)',
+    emailHint: 'Si lo dejas, uno de los fundadores te escribirá una sola vez. Sin listas ni campañas de correo.',
+    badEmail: 'Ese correo no parece correcto — corrígelo o deja el campo vacío.',
+    adminTitle: 'Panel del coordinador',
+    adminBody: 'Voluntarios, turnos, incorporación, horas, mensajes e informes.',
+    adminOpen: 'Abrir el panel',
+    volTitle: 'App para voluntarios',
+    volBody: 'Lo que ve Elena, una de las voluntarias de la clínica, en su teléfono.',
+    volOpen: 'Abrir la app para voluntarios',
+    opening: 'Abriendo…',
+  },
+  actions: {
+    required: 'El nombre, el correo y la organización son obligatorios.',
+    badEmail: 'Ese correo no parece correcto.',
+    failed: (contact: string) =>
+      `No pudimos enviar tu solicitud en este momento. Escríbenos a ${contact} y preparamos la demo directamente.`,
+    ok: 'Listo — te escribiremos en menos de un día hábil.',
+  },
+}
+
+export const COPY: Record<Lang, Copy> = { en, es }

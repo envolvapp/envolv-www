@@ -50,11 +50,56 @@
   --color-accent-400: #f9c96e;
   --color-accent-500: #f7b846; /* BRAND gold */
 
+  /* Semantic text tokens (2026-10-30, for light/dark). Use these instead of
+     text-white: heading text flips with the color scheme, text on a brand
+     fill does not. */
+  --color-heading: #ffffff;
+  --color-on-brand: #ffffff;
+  --color-error: #fecaca;
+
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
 }
 
+/* ─────────────────────────────────────────────────────────────
+   Light mode (2026-10-30). The site follows the visitor's system
+   setting: dark above is the original design, and this block
+   re-points the same tokens for a light page, so components keep
+   using ink-950 for the page, ink-900 for raised surfaces, ink-200
+   for body text, and so on. Every text stop below passes WCAG AA
+   on both #ffffff and the #eef2f7 raised surface (checked
+   2026-10-30): heading 16:1, ink-200 10.9:1, ink-400 6.2:1,
+   teal-500 5.2:1, brand-400 5.2:1, gold text 5.9:1, error 6.6:1.
+   ───────────────────────────────────────────────────────────── */
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-ink-50: #0d1526;
+    --color-ink-100: #1b2a4b;
+    --color-ink-200: #2a3c63;
+    --color-ink-300: #3c5182;
+    --color-ink-400: #4f6189;
+    --color-ink-600: #a3b0c8;
+    --color-ink-700: #c9d2e1;
+    --color-ink-800: #dde3ed;
+    --color-ink-900: #eef2f7;
+    --color-ink-950: #ffffff;
+
+    /* Emerald and teal darkened for text on white; fills keep brand-600. */
+    --color-brand-400: #017a6d;
+    --color-teal-300: #005a68;
+    --color-teal-400: #00687a;
+    --color-teal-500: #00788a;
+    /* Gold text on white is unreadable at brand value; badges use a deep gold. */
+    --color-accent-400: #a36b00;
+    --color-accent-500: #8a5a00;
+
+    --color-heading: #14203a;
+    --color-error: #b42318;
+  }
+}
+
 html {
+  color-scheme: light dark;
   scroll-behavior: smooth;
 }
 
