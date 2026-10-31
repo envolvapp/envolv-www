@@ -4,7 +4,8 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { CheckCircle2, AlertCircle } from 'lucide-react'
 import { requestDemo } from '@/app/actions'
 import type { DemoRequestState } from '@/lib/types'
-import { VERTICALS, type Lang } from '@/lib/content'
+import Link from 'next/link'
+import { VERTICALS, href, type Lang } from '@/lib/content'
 import { COPY } from '@/lib/copy'
 
 const initialState: DemoRequestState = { status: 'idle' }
@@ -163,7 +164,10 @@ export default function DemoForm({ lang }: { lang: Lang }) {
       <SubmitButton lang={lang} />
 
       <p className="text-center text-xs text-ink-400">
-        {t.privacy}
+        {t.privacy}{' '}
+        <Link href={href(lang, '/privacy')} className="underline underline-offset-2 hover:text-heading">
+          {t.privacyLink}
+        </Link>
       </p>
     </form>
   )

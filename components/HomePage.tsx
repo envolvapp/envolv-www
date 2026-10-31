@@ -310,6 +310,9 @@ export default function HomePage({ lang }: { lang: Lang }) {
           </p>
           <div className="flex items-center gap-5">
             <LangSwitch lang={lang} />
+            <Link href={href(lang, '/privacy')} className="text-sm text-ink-400 transition-colors hover:text-heading">
+              {t.footer.privacy}
+            </Link>
             <a
               href={`mailto:${CONTACT_EMAIL}`}
               className="text-sm text-ink-400 transition-colors hover:text-heading"

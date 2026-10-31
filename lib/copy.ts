@@ -20,6 +20,9 @@ const en = {
     demoTitle: 'Try Envolv — live demo, no signup',
     demoDescription:
       'Click around a real Envolv account: the coordinator dashboard and the volunteer app, with a made-up clinic and sample data that resets every night.',
+    privacyTitle: 'Privacy Policy — Envolv',
+    privacyDescription:
+      'What information Envolv handles for the organizations that use it and for visitors to this site, who we share it with, and the choices you have.',
   },
   skip: 'Skip to content',
   backToTop: 'Envolv — back to top',
@@ -103,9 +106,10 @@ const en = {
     sending: 'Sending…',
     submit: 'Request a demo',
     privacy: 'We’ll only use this to set up your demo. No list, no drip campaign.',
+    privacyLink: 'Privacy Policy',
     received: 'Request received',
   },
-  footer: { rights: 'All rights reserved.' },
+  footer: { rights: 'All rights reserved.', privacy: 'Privacy' },
   live: {
     eyebrow: 'Live demo',
     title: 'Try Envolv. No signup.',
@@ -166,6 +170,9 @@ const es: Copy = {
     demoTitle: 'Prueba Envolv — demo en vivo, sin registrarte',
     demoDescription:
       'Explora una cuenta real de Envolv: el panel del coordinador y la app para voluntarios, con una clínica ficticia y datos de ejemplo que se restablecen cada noche.',
+    privacyTitle: 'Política de privacidad — Envolv',
+    privacyDescription:
+      'Qué información maneja Envolv para las organizaciones que lo usan y para quienes visitan este sitio, con quién la compartimos y qué opciones tienes.',
   },
   skip: 'Saltar al contenido',
   backToTop: 'Envolv — volver arriba',
@@ -249,9 +256,10 @@ const es: Copy = {
     sending: 'Enviando…',
     submit: 'Solicita una demo',
     privacy: 'Solo usaremos esto para preparar tu demo. Sin listas ni campañas de correo.',
+    privacyLink: 'Política de privacidad',
     received: 'Solicitud recibida',
   },
-  footer: { rights: 'Todos los derechos reservados.' },
+  footer: { rights: 'Todos los derechos reservados.', privacy: 'Privacidad' },
   live: {
     eyebrow: 'Demo en vivo',
     title: 'Prueba Envolv. Sin registrarte.',

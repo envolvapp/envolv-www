@@ -63,6 +63,11 @@ export function demoMetadata(lang: Lang): Metadata {
   return { title: m.demoTitle, description: m.demoDescription, alternates: alternates(lang, '/demo') }
 }
 
+export function privacyMetadata(lang: Lang): Metadata {
+  const m = COPY[lang].meta
+  return { title: m.privacyTitle, description: m.privacyDescription, alternates: alternates(lang, '/privacy') }
+}
+
 /** Browser chrome follows the visitor's light/dark setting, like the page. */
 export const viewport: Viewport = {
   colorScheme: 'light dark',

@@ -6,6 +6,7 @@ import { SITE_URL } from '@/lib/content'
 const PAGES = [
   { path: '', priority: 1 },
   { path: '/demo', priority: 0.8 },
+  { path: '/privacy', priority: 0.3 },
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
