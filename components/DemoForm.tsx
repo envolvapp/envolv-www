@@ -123,11 +123,12 @@ export default function DemoForm({ lang }: { lang: Lang }) {
           </label>
           <select id="size" name="size" className={inputClass} defaultValue="">
             <option value="">{t.selectOne}</option>
-            {/* Bands match the plan walls (Free 25 / Starter 100 / Growth 250 /
-                Professional 500 / Premier 750 / Enterprise), so a lead maps
-                straight to a tier. Values are English and carry no commas
-                because they're Notion select options (new ones are created on
-                first use). */}
+            {/* Bands match the plan walls in ACTIVE volunteers (Free 25 /
+                Starter 100 / Growth 250 / Professional 500 / Premier 750 /
+                Enterprise), so a lead maps straight to a band. Values are
+                English and carry no commas because they're Notion select
+                options (new ones are created on first use) — keep them as they
+                are so existing leads stay in the same options. */}
             <option value="Under 25">{t.under} 25</option>
             <option value="25–100">25–100</option>
             <option value="100–250">100–250</option>

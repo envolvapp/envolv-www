@@ -1,38 +1,48 @@
 /**
  * Single source of truth for everything the site claims, in both languages.
  *
- * Verticals trace to industry-targeting-strategy.pdf (medvolunteer repo root).
+ * Pricing and positioning follow the founders' action plan of 2026-10-31
+ * (ACTION-PLAN-BRIEF §§1–5, approved by all three co-founders). It replaced
+ * the 2026-10-30 ladder in three ways:
  *
- * Tier ladder revised 2026-10-30 at the first all-hands (supersedes 2026-08-20):
- * Free ≤25 / Starter $29 ≤100 / Growth $59 ≤250 / Professional $89 ≤500 /
- * Premier $129 ≤750 / Enterprise custom from $199 above 750. Annual ≈17% off.
+ *   1. The meter is ACTIVE volunteers: anyone with at least one completed
+ *      shift, clock-in or logged hour in the past 365 days. Applicants,
+ *      prospects, inactive volunteers and archived records are never billed,
+ *      on any plan. Archive is free and never expires. (Replaces "everyone on
+ *      file" and "archived free for 12 months, then deleted".)
+ *   2. One plan, priced in bands — same prices and band edges as before:
+ *      Free ≤25 / Starter $29 ≤100 / Growth $59 101–250 / Professional $89
+ *      251–500 / Premier $129 501–750 / Enterprise from $199 above 750.
+ *      Annual ≈17% off ($24/$49/$74/$107). Unlimited admins on every paid
+ *      band. No feature gates between paid bands; white-glove import is in
+ *      every paid band (no longer Premier-only).
+ *   3. Billing rules: warn at 90% of a band; up to 10% over for 60 days
+ *      before moving up; monthly plans move up at the first billing date after
+ *      the grace period and down after a full month below the band; annual
+ *      plans true up once, at renewal.
  *
- * What counts toward a limit (also decided 2026-10-30): EVERYONE on file —
- * applicants, active and inactive volunteers. Archived profiles are free for
- * up to 12 months; after that they are deleted, with 30 days' notice and an
- * export first. This replaced the old "active volunteers only, archived free
- * forever" rule, so the comparison row and the pricing footnote say so.
+ * Pricing is FROZEN until 15 customers pay list price.
  *
- * Pricing & competitor figures verified 2026-08-20 against published sources:
- *   - Volgistics price list (volgistics.com/help/payment-information/price-list,
- *     unchanged since 2020-07): 50 vols $9 base / $17 all add-ons; 500 vols $30 /
- *     $55; 1,000 vols $40 / $73 all-in; $10/mo per admin beyond two.
- *   - VolunteerHub (volunteerhub.com/pricing): Plus from $143/mo, Pro from
- *     $288/mo, billed annually + setup fee.
- *   - Better Impact acquired Galaxy Digital (Get Connected) 2026-03; both
- *     quote-only annual contracts.
- *   - Civic Champs (civicchamps.com/pricing): $49–$174/mo by active-volunteer
- *     band + $199–$399 setup — closest modern analog to our band model.
- *   - Free plans now standard at the small end: POINT (unlimited, Pro $99),
- *     Golden (unlimited, Pro $100), Timecounts (1 admin, Pro $79).
+ * Shipped-only rule (2026-10-30, still in force): the site lists only what the
+ * product does TODAY. Checked against the medvolunteer repo on 2026-10-31:
+ *   shipped  — volunteer app (PWA) + portal, shifts with capacity limits and
+ *              role-restricted sign-up, recurring shifts, clock-in/out with a
+ *              geofence check, hour approvals, onboarding stages, background-
+ *              check status, training modules, handbook signature, credential
+ *              records with an expiry report, in-app expiry warnings and the
+ *              Credential Expiry auto-message (fixed 2026-10-31), email + push
+ *              messages (scheduled, templates, by role), reports with saved
+ *              filters + CSV export, full EN/ES.
+ *   not yet  — kiosk, CSV importer, SMS, role-mix shifts, student rotations,
+ *              hours-verification letters, per-organization branding, API,
+ *              multi-site, SSO, volunteer archiving (F17), the active-count
+ *              meter itself (F1, Dec 2026), a help center. None of these
+ *              appear on the site. When one ships, add it to PAID_FEATURES.
+ * Hand-delivered services (support, onboarding calls, the white-glove import,
+ * a CSM) count as shipped.
  *
- * Shipped-only rule (2026-10-30, replaces the 2026-10-26 "Soon" badges): the
- * pricing cards list only what the product does TODAY. Roadmap items (SMS,
- * industry templates, kiosk, API, roles, white-label, multi-org, SSO, a
- * background-check provider integration, live chat — ROADMAP F3–F13) are not
- * on the site at all. When one ships, add it to the tier it belongs to.
- * Things the team delivers by hand (support, onboarding calls, data
- * migration, a CSM) count as shipped.
+ * Competitor figures were checked 2026-10-31 against the sources in
+ * COMPARISON.sources; the dedicated comparison pages live in lib/compare.ts.
  *
  * Every visible string is an `L` ({ en, es }). If a number changes, change it
  * here — not in the JSX. Spanish uses "tú", matching the Envolv apps.
@@ -80,8 +90,9 @@ export const SITE_URL = 'https://envolv.org'
 /**
  * The small pill above the hero headline. Hidden 2026-10-26 at Sean's request
  * until the claim is one a prospect can verify; scheduled to come back on
- * 2026-11-23 (flip `show` to true). The industries section's clinic card makes
- * a similar "running live" claim — revisit both together.
+ * 2026-11-23 (flip `show` to true), a week after Yakima's 2026-11-16 go-live.
+ * The clinic vertical's blurb dropped its own "running live" line on
+ * 2026-10-31 for the same reason — restore both together.
  */
 export const HERO_BADGE = {
   show: false,
@@ -91,157 +102,281 @@ export const HERO_BADGE = {
   } as L,
 }
 
+/** The date every price and competitor figure on the site was last checked. */
+export const AS_OF = {
+  iso: '2026-10-31',
+  text: { en: 'October 31, 2026', es: '31 de octubre de 2026' } as L,
+}
+
 /* ── Plans ──────────────────────────────────────────────────────────────── */
 
-/** "Up to 100 volunteers" / "Hasta 100 voluntarios". */
-export function volunteersLabel(limit: number, lang: Lang): string {
-  const n = limit.toLocaleString('en-US')
-  return lang === 'es' ? `Hasta ${n} voluntarios` : `Up to ${n} volunteers`
+/** 1000 → "1,000" in both languages (US Spanish uses the same separators). */
+export function num(n: number): string {
+  return n.toLocaleString('en-US')
 }
 
-/** "2 admin seats" / "2 administradores". */
-export function seatsLabel(seats: number, lang: Lang): string {
-  if (lang === 'es') return seats === 1 ? '1 administrador' : `${seats} administradores`
-  return seats === 1 ? '1 admin seat' : `${seats} admin seats`
+/** 1000 → "$1,000". Prices are US dollars in both languages. */
+export function usd(n: number): string {
+  return `$${num(n)}`
 }
 
-export type Tier = {
+/** "Up to 100" / "101–250" — the band's edges, without a noun. */
+export function bandRange(band: { min: number; max: number }, lang: Lang): string {
+  if (band.min <= 1) return lang === 'es' ? `Hasta ${num(band.max)}` : `Up to ${num(band.max)}`
+  return `${num(band.min)}–${num(band.max)}`
+}
+
+/** "Up to 25 active volunteers" / "Hasta 25 voluntarios activos". */
+export function activeLabel(limit: number, lang: Lang): string {
+  return lang === 'es' ? `Hasta ${num(limit)} voluntarios activos` : `Up to ${num(limit)} active volunteers`
+}
+
+/** "1 admin" / "Unlimited admins". */
+export function adminsLabel(admins: number | 'unlimited', lang: Lang): string {
+  if (admins === 'unlimited') return lang === 'es' ? 'Administradores ilimitados' : 'Unlimited admins'
+  if (lang === 'es') return admins === 1 ? '1 administrador' : `${admins} administradores`
+  return admins === 1 ? '1 admin' : `${admins} admins`
+}
+
+export type Band = {
   name: string // plan names stay in English in both languages (invoices, contracts)
+  min: number // lowest active-volunteer count the band is for (1 = "up to")
+  max: number // the band's wall
   monthly: number
   annualMonthly: number // billed annually, ~17% off (≈2 months free)
-  limit: number
-  seats: number
-  tagline: L
-  /** Heading above the list, e.g. "Everything in Starter, plus". */
-  includes?: L
-  features: L[]
-  featured?: boolean
+  support: L
 }
 
 /**
- * The Free plan renders as a slim strip, not a card — it's the on-ramp, not
- * the hero.
+ * The paid bands, in order. One plan: every band has the same features
+ * (PAID_FEATURES) and unlimited admins — only the price and the support line
+ * change with size.
+ */
+export const BANDS: Band[] = [
+  {
+    name: 'Starter',
+    min: 1,
+    max: 100,
+    monthly: 29,
+    annualMonthly: 24,
+    support: { en: 'Email support, 24-hour response target', es: 'Soporte por correo, objetivo de respuesta de 24 h' },
+  },
+  {
+    name: 'Growth',
+    min: 101,
+    max: 250,
+    monthly: 59,
+    annualMonthly: 49,
+    support: { en: 'Email support, 24-hour response target', es: 'Soporte por correo, objetivo de respuesta de 24 h' },
+  },
+  {
+    name: 'Professional',
+    min: 251,
+    max: 500,
+    monthly: 89,
+    annualMonthly: 74,
+    support: { en: 'Priority support and an onboarding call', es: 'Soporte prioritario y una llamada de bienvenida' },
+  },
+  {
+    name: 'Premier',
+    min: 501,
+    max: 750,
+    monthly: 129,
+    annualMonthly: 107,
+    support: { en: 'Priority support and an onboarding call', es: 'Soporte prioritario y una llamada de bienvenida' },
+  },
+]
+
+/**
+ * Included in every paid band — shipped features only (see header). Order is
+ * display order. The import is a hand-delivered service.
+ */
+export const PAID_FEATURES: L[] = [
+  { en: 'Volunteer app for any phone, plus a self-service portal', es: 'App para voluntarios en cualquier teléfono y un portal de autoservicio' },
+  { en: 'Shifts with sign-up limits, recurring schedules and role-only shifts', es: 'Turnos con cupos, horarios recurrentes y turnos solo para un rol' },
+  { en: 'Clock-in from the phone, with an on-site check and hour approvals', es: 'Registro de entrada desde el teléfono, con verificación en el sitio y aprobación de horas' },
+  { en: 'Credential tracking with expiry reminders', es: 'Seguimiento de credenciales con avisos de vencimiento' },
+  { en: 'Onboarding stages, documents, background-check status and training', es: 'Etapas de incorporación, documentos, estado de verificación de antecedentes y capacitación' },
+  { en: 'Email and push messages — now, scheduled, or automatic', es: 'Mensajes por correo y push — al momento, programados o automáticos' },
+  { en: 'Custom reports and CSV exports', es: 'Informes personalizados y exportación en CSV' },
+  { en: 'Full English and Spanish for volunteers and coordinators', es: 'Todo en inglés y español para voluntarios y coordinadores' },
+  { en: 'White-glove import of your existing volunteer records', es: 'Importamos por ti tus registros de voluntarios actuales' },
+]
+
+/**
+ * The Free plan renders as a strip, not in the band selector — it's for small
+ * programs and the landing pad for trials that end without a plan. It is NOT
+ * pitched against POINT's or Golden's unlimited free plans (brief §2).
+ *
+ * The brief gives Free "help center" support; there is no help center yet, so
+ * no support line is shown for Free until there is one.
  */
 export const FREE_TIER = {
   name: 'Free',
   limit: 25,
-  seats: 1,
+  admins: 1,
   blurb: {
-    en: 'Scheduling, hour tracking, and the volunteer mobile app — free for good. No credit card, no trial clock.',
-    es: 'Turnos, registro de horas y la app móvil para voluntarios — gratis para siempre. Sin tarjeta de crédito ni periodo de prueba.',
+    en: 'Free for small programs: scheduling, hour tracking and the volunteer app, with unlimited applicants and archive. No card, no time limit.',
+    es: 'Gratis para programas pequeños: turnos, registro de horas y la app para voluntarios, con solicitudes y archivo ilimitados. Sin tarjeta y sin límite de tiempo.',
   } as L,
 }
 
-export const TIERS: Tier[] = [
-  {
-    name: 'Starter',
-    monthly: 29,
-    annualMonthly: 24,
-    limit: 100,
-    seats: 2,
-    tagline: {
-      en: 'For small teams that outgrew the spreadsheet.',
-      es: 'Para equipos pequeños que ya superaron la hoja de cálculo.',
-    },
-    features: [
-      { en: 'Volunteer self-service portal', es: 'Portal de autoservicio para voluntarios' },
-      { en: 'Mobile app for volunteers', es: 'App móvil para voluntarios' },
-      { en: 'Scheduling & hour tracking', es: 'Turnos y registro de horas' },
-      { en: 'Standard reporting', es: 'Informes estándar' },
-      { en: 'Email & push notifications', es: 'Notificaciones por correo y push' },
-      { en: 'Email support (48hr)', es: 'Soporte por correo (48 h)' },
-    ],
-  },
-  {
-    name: 'Growth',
-    monthly: 59,
-    annualMonthly: 49,
-    limit: 250,
-    seats: 5,
-    featured: true,
-    tagline: {
-      en: 'For established programs — where most nonprofits actually live.',
-      es: 'Para programas establecidos — donde está la mayoría de las organizaciones.',
-    },
-    includes: { en: 'Everything in Starter, plus', es: 'Todo lo de Starter, más' },
-    features: [
-      { en: 'Advanced scheduling & approvals', es: 'Turnos avanzados y aprobaciones' },
-      { en: 'Custom reports', es: 'Informes personalizados' },
-      { en: 'Background check tracking', es: 'Seguimiento de verificación de antecedentes' },
-      { en: 'Logo branding', es: 'Tu logo en la app' },
-      { en: 'Email support (24hr)', es: 'Soporte por correo (24 h)' },
-    ],
-  },
-  {
-    name: 'Professional',
-    monthly: 89,
-    annualMonthly: 74,
-    limit: 500,
-    seats: 10,
-    tagline: {
-      en: 'For large, multi-program operations.',
-      es: 'Para operaciones grandes con varios programas.',
-    },
-    includes: { en: 'Everything in Growth, plus', es: 'Todo lo de Growth, más' },
-    features: [
-      { en: 'Geofenced clock-in', es: 'Registro de entrada con geovalla' },
-      { en: 'CSV data exports', es: 'Exportación de datos en CSV' },
-      { en: 'Priority support + onboarding call', es: 'Soporte prioritario + llamada de bienvenida' },
-    ],
-  },
-  {
-    name: 'Premier',
-    monthly: 129,
-    annualMonthly: 107,
-    limit: 750,
-    seats: 15,
-    tagline: {
-      en: 'For the biggest single-site programs.',
-      es: 'Para los programas más grandes en una sola sede.',
-    },
-    includes: { en: 'Everything in Professional, plus', es: 'Todo lo de Professional, más' },
-    features: [
-      {
-        en: 'Help importing your existing volunteer records',
-        es: 'Ayuda para importar tus registros de voluntarios',
-      },
-    ],
-  },
-]
-
-/** Above the top wall. Rendered as a strip under the cards. */
+/** Above the top wall. Rendered as a strip under the band selector. */
 export const ENTERPRISE = {
   name: 'Enterprise',
   over: 750,
   floor: 199,
   tagline: {
-    en: 'For networks, agencies, and government.',
+    en: 'For networks, agencies and government.',
     es: 'Para redes, agencias y gobierno.',
   } as L,
   summary: {
-    en: 'Unlimited admin seats, custom integrations, a security review & DPA, and a dedicated CSM with an SLA.',
-    es: 'Administradores ilimitados, integraciones a medida, revisión de seguridad y DPA, y un gerente de cuenta dedicado con SLA.',
+    en: 'Everything in the paid bands, unlimited admins, a dedicated customer success manager and an SLA. Annual pricing is quoted.',
+    es: 'Todo lo de los tramos pagos, administradores ilimitados, un gerente de cuenta dedicado y un SLA. El precio anual se cotiza.',
   } as L,
 }
 
-/** The rules under the pricing grid. Keep in step with the header comment. */
+/** The trial: any paid band, 30 days, no card, expires into Free. */
+export const TRIAL = {
+  days: 30,
+  text: {
+    en: 'Try any paid band free for 30 days — no card needed. When the trial ends, the account moves to Free unless you choose a band.',
+    es: 'Prueba cualquier tramo pago gratis durante 30 días, sin tarjeta. Cuando termina la prueba, la cuenta pasa al plan Free, salvo que elijas un tramo.',
+  } as L,
+}
+
+/**
+ * How the meter works, in plain words — shown right under the price.
+ * Keep in step with the header comment and with lib/privacy.ts (retention).
+ */
 export const PLAN_RULES = {
-  includes: {
-    en: 'Every plan includes the volunteer mobile app, the self-service portal, and full English and Spanish. No setup fees, no contracts.',
-    es: 'Todos los planes incluyen la app móvil para voluntarios, el portal de autoservicio y todo en inglés y español. Sin cuotas de instalación ni contratos.',
+  /** One line next to the price. */
+  short: {
+    en: 'You pay only for volunteers who served in the past 12 months.',
+    es: 'Solo pagas por los voluntarios que participaron en los últimos 12 meses.',
   } as L,
-  counting: {
-    en: 'Limits count everyone on file, applicants included. Archive anyone you’re not working with right now — archived profiles are free for up to a year.',
-    es: 'Los límites cuentan a todas las personas registradas, incluidas las solicitudes. Archiva a quien no esté participando ahora — los perfiles archivados son gratis hasta por un año.',
+  points: [
+    {
+      icon: 'UserCheck' as const,
+      title: { en: 'Active volunteers only', es: 'Solo voluntarios activos' },
+      body: {
+        en: 'Anyone who completed a shift, clocked in or logged hours in the past 12 months.',
+        es: 'Quien completó un turno, registró su entrada o anotó horas en los últimos 12 meses.',
+      },
+    },
+    {
+      icon: 'UserPlus' as const,
+      title: { en: 'Always free', es: 'Siempre gratis' },
+      body: {
+        en: 'Applicants, inactive volunteers and archived records — on every plan, Free included.',
+        es: 'Solicitudes, voluntarios inactivos y registros archivados, en todos los planes, incluido Free.',
+      },
+    },
+    {
+      icon: 'Archive' as const,
+      title: { en: 'Archive never expires', es: 'El archivo no vence' },
+      body: {
+        en: 'Archived records are free and kept until you delete them.',
+        es: 'Los registros archivados son gratis y se guardan hasta que tú los borres.',
+      },
+    },
+    {
+      icon: 'TrendingUp' as const,
+      title: { en: 'Room to grow', es: 'Margen para crecer' },
+      body: {
+        en: 'Go up to 10% over your band for 60 days before you move up. We warn you at 90%.',
+        es: 'Puedes pasarte hasta un 10% de tu tramo durante 60 días antes de subir. Te avisamos al llegar al 90%.',
+      },
+    },
+  ],
+  bandChanges: {
+    en: 'Monthly plans move up on the first billing date after those 60 days, and move down on their own after a full month below the band. Annual plans settle up once, at renewal — no mid-year invoices.',
+    es: 'Los planes mensuales suben en la primera fecha de facturación después de esos 60 días, y bajan solos después de un mes completo por debajo del tramo. Los planes anuales se ajustan una sola vez, al renovar, sin facturas a mitad de año.',
+  } as L,
+  finePrint: {
+    en: 'Prices in US dollars. No setup fees. Support hours are Monday to Friday, 9 a.m. to 5 p.m. Eastern; response times are targets, not guarantees.',
+    es: 'Precios en dólares estadounidenses. Sin cuotas de instalación. El horario de soporte es de lunes a viernes, de 9 a. m. a 5 p. m. (hora del Este); los tiempos de respuesta son objetivos, no garantías.',
   } as L,
 }
 
-/* ── Industries & features ──────────────────────────────────────────────── */
+/**
+ * Go-to-market offer (brief §8): for organizations leaving Volgistics or Get
+ * Connected, the white-glove import (already in every paid band) plus the
+ * first month free.
+ */
+export const MIGRATION_OFFER = {
+  title: { en: 'Leaving Volgistics or Get Connected?', es: '¿Dejas Volgistics o Get Connected?' } as L,
+  body: {
+    en: 'We import your existing volunteer records for you, free, and your first month is free. Every paid band already includes the white-glove import; the free first month is for organizations moving from Volgistics or Get Connected.',
+    es: 'Importamos por ti tus registros de voluntarios actuales, gratis, y tu primer mes es gratis. Todos los tramos pagos ya incluyen la importación hecha por nosotros; el primer mes gratis es para organizaciones que vienen de Volgistics o Get Connected.',
+  } as L,
+}
+
+/* ── Clinics, industries & features ─────────────────────────────────────── */
+
+/**
+ * The lead audience (brief §4): free and charitable clinics with 50–250
+ * active volunteers that schedule licensed clinicians, health-professions
+ * students and interpreters. Shipped features only — role-mix shifts, student
+ * rotations, verification letters and kiosk check-in are NOT built.
+ */
+export const CLINIC = {
+  points: [
+    {
+      icon: 'BadgeCheck' as const,
+      title: { en: 'Credentials that don’t lapse quietly', es: 'Credenciales que no vencen sin aviso' },
+      body: {
+        en: 'Record each license or certification with its expiry date. Volunteers see what’s due in their app, reminders go out on their own, and you get an expiry report.',
+        es: 'Registra cada licencia o certificación con su fecha de vencimiento. Los voluntarios ven lo que está por vencer en su app, los recordatorios salen solos y tú tienes un informe de vencimientos.',
+      },
+    },
+    {
+      icon: 'Stethoscope' as const,
+      title: { en: 'Shifts by role', es: 'Turnos por rol' },
+      body: {
+        en: 'Limit a shift to a role, so only clinicians can claim clinician shifts — and message one role at a time.',
+        es: 'Limita un turno a un rol, para que solo el personal clínico pueda tomar los turnos clínicos, y escribe a un solo rol a la vez.',
+      },
+    },
+    {
+      icon: 'ClipboardCheck' as const,
+      title: { en: 'Onboarding you can show an auditor', es: 'Incorporación que puedes mostrar en una auditoría' },
+      body: {
+        en: 'Applications, background-check status, documents, training and the handbook signature, tracked as stages for every volunteer.',
+        es: 'Solicitudes, estado de verificación de antecedentes, documentos, capacitación y la firma del manual, organizados por etapas para cada voluntario.',
+      },
+    },
+    {
+      icon: 'Languages' as const,
+      title: { en: 'Spanish for the whole team', es: 'Español para todo el equipo' },
+      body: {
+        en: 'Interpreters and Spanish-speaking volunteers get the whole volunteer app in Spanish; coordinators can switch the dashboard too.',
+        es: 'Intérpretes y voluntarios hispanohablantes usan toda la app en español, y los coordinadores también pueden cambiar el panel.',
+      },
+    },
+  ],
+  /** The data boundary (brief §4 — attorney to confirm the final wording). */
+  boundary: {
+    en: 'Volunteers, not patients. Envolv is for administering volunteers: it has no patient fields, and customers agree not to enter information about patients or the care they receive.',
+    es: 'Voluntarios, no pacientes. Envolv sirve para administrar voluntarios: no tiene campos para pacientes, y los clientes se comprometen a no ingresar información sobre pacientes ni sobre la atención que reciben.',
+  } as L,
+}
 
 export const VERTICALS = [
   {
     // `value` is what the demo form stores in Notion's Industry select —
     // always English so the select options don't fork by language.
+    // `lead` = shown in its own section on the home page, not the grid.
+    value: 'Clinics & healthcare',
+    lead: true,
+    name: { en: 'Clinics & healthcare', es: 'Clínicas y salud' },
+    blurb: {
+      en: 'Credential tracking with expiry reminders, background-check status and onboarding stages for clinicians, students and interpreters.',
+      es: 'Seguimiento de credenciales con avisos de vencimiento, estado de verificación de antecedentes y etapas de incorporación para personal clínico, estudiantes e intérpretes.',
+    },
+    icon: 'Stethoscope' as const,
+  },
+  {
     value: 'Animal shelters & rescues',
     name: { en: 'Animal shelters & rescues', es: 'Refugios y rescate de animales' },
     blurb: {
@@ -263,8 +398,8 @@ export const VERTICALS = [
     value: 'Nonprofits & community orgs',
     name: { en: 'Nonprofits & community orgs', es: 'Organizaciones sin fines de lucro y comunitarias' },
     blurb: {
-      en: 'A flexible catch-all template: events, recurring programs, and one-off drives, without the setup tax.',
-      es: 'Una configuración flexible para todo: eventos, programas recurrentes y campañas puntuales, sin el trabajo de montarlo.',
+      en: 'Events, recurring programs and one-off drives, set up around your roles and shifts with you.',
+      es: 'Eventos, programas recurrentes y campañas puntuales, configurados contigo según tus roles y turnos.',
     },
     icon: 'HeartHandshake' as const,
   },
@@ -276,15 +411,6 @@ export const VERTICALS = [
       es: 'Turnos de guías, cobertura de salas y las rotaciones recurrentes complejas que rompen cualquier hoja de inscripción.',
     },
     icon: 'Landmark' as const,
-  },
-  {
-    value: 'Clinics & healthcare',
-    name: { en: 'Clinics & healthcare', es: 'Clínicas y salud' },
-    blurb: {
-      en: 'Credential tracking, background checks, and onboarding stages — already running live at a free clinic today.',
-      es: 'Seguimiento de credenciales, verificación de antecedentes y etapas de incorporación — ya en uso en una clínica gratuita.',
-    },
-    icon: 'Stethoscope' as const,
   },
   {
     value: 'State & local government',
@@ -350,74 +476,105 @@ export const FEATURES = [
 
 /* ── Comparison ─────────────────────────────────────────────────────────── */
 
-export type ComparisonRow = { label: L; envolv: L; modern: L; legacy: L }
+/** Envolv's list price per month at a given active-volunteer count; null = Enterprise (quoted). */
+export function envolvMonthlyAt(actives: number): number | null {
+  if (actives <= FREE_TIER.limit) return 0
+  const band = BANDS.find((b) => actives <= b.max)
+  return band ? band.monthly : null
+}
+
+export type PricePoint = {
+  actives: number
+  /** Civic Champs list price, billed annually (setup fee not included). */
+  civicChamps: number
+  /** Volgistics with 2 admins: [VicNet portal only, all add-ons]. */
+  volgistics: [number, number]
+}
 
 /**
- * Competitor comparison — verified against published pricing (see header).
- * Three columns: us, the modern platforms we actually compete with on
- * product, and the legacy à-la-carte incumbent that competes on sticker price.
- * Legacy at 500 volunteers / 10 admins = $30–55 (bare / all add-ons) + 8 extra
- * admins × $10.
+ * Competitive position, monthly, by active volunteers (brief §5). Checked
+ * 2026-10-31:
+ *   - Civic Champs (civicchamps.com/pricing): 1–49 $49 / 50–249 $74 /
+ *     250–499 $99 / 500–749 $124 / 750–999 $149 / 1,000–1,499 $174, billed
+ *     annually + a one-time setup fee shown as "$199 $399", unlabeled.
+ *   - Volgistics price list (effective 2020-07-15), records ≈ actives:
+ *     50 records $9 + VicNet $3 (+ VicTouch $3 + VicDocs $2) = $12–$17;
+ *     500 records $30 + $10 (+ $10 + $5) = $40–$55 (covers 250 and 500);
+ *     1,000 records $40 + $13 (+ $13 + $7) = $53–$73 (covers 750 and 1,000).
+ *     Two System Operators included; $10/month each after that.
+ * Envolv's column is computed from BANDS, so it can't drift.
+ */
+export const PRICE_POINTS: PricePoint[] = [
+  { actives: 50, civicChamps: 74, volgistics: [12, 17] },
+  { actives: 250, civicChamps: 99, volgistics: [40, 55] },
+  { actives: 500, civicChamps: 124, volgistics: [40, 55] },
+  { actives: 750, civicChamps: 149, volgistics: [53, 73] },
+  { actives: 1000, civicChamps: 174, volgistics: [53, 73] },
+]
+
+export type Source = { label: string; url: string }
+
+export const SOURCES = {
+  civicChampsPricing: { label: 'Civic Champs — Pricing', url: 'https://www.civicchamps.com/pricing' },
+  civicChampsTechSoup: { label: 'Civic Champs — TechSoup offer', url: 'https://www.civicchamps.com/techsoup' },
+  civicChampsFitGap: { label: 'FitGap — Civic Champs', url: 'https://us.fitgap.com/products/civic-champs' },
+  volgisticsPrices: { label: 'Volgistics — Price List', url: 'https://www.volgistics.com/help/payment-information/price-list/' },
+  volgisticsSupport: { label: 'Volgistics — Customer Support', url: 'https://www.volgistics.com/support.htm' },
+  volgisticsHelp: { label: 'Volgistics — Help topics', url: 'https://www.volgistics.com/help/' },
+  corum: { label: 'Corum Group — Better Impact / The Brydon Group', url: 'https://www.corumgroup.com/node/6486' },
+  betterImpactGetConnected: { label: 'Better Impact — Better Impact welcomes Get Connected', url: 'https://www.betterimpact.com/better-together' },
+  betterImpactPlans: { label: 'Better Impact — Features & plans', url: 'https://www.betterimpact.com/features' },
+  getConnected: { label: 'Get Connected by Galaxy Digital', url: 'https://www.galaxydigital.com/' },
+  point: { label: 'POINT — Pricing', url: 'https://pointapp.org/pricing/' },
+  golden: { label: 'Golden — Pricing', url: 'https://goldenvolunteer.com/pricing/' },
+  timecounts: { label: 'Timecounts — Pricing', url: 'https://join.timecounts.app/pricing' },
+} satisfies Record<string, Source>
+
+/**
+ * The home-page comparison (brief §5). Named competitors appear only in
+ * dated, sourced comparisons like this one and the pages in lib/compare.ts
+ * (DECISIONS 2026-10-31).
  */
 export const COMPARISON = {
-  note: {
-    en: 'Figures verified August 20, 2026. Modern platforms: VolunteerHub published pricing (Plus from $143/mo, Pro from $288/mo, billed annually plus a setup fee); Better Impact and Get Connected (merged March 2026) are quote-only annual contracts. Legacy: Volgistics published price list (unchanged since July 2020) — the volunteer portal, time clock, and document storage are separate add-ons, and each admin beyond two costs $10/mo. Envolv limits count everyone on file; archived profiles are free for up to a year.',
-    es: 'Cifras verificadas el 20 de agosto de 2026. Plataformas modernas: precios publicados de VolunteerHub (Plus desde $143/mes, Pro desde $288/mes, facturación anual más cuota de instalación); Better Impact y Get Connected (fusionadas en marzo de 2026) solo cotizan contratos anuales. Tradicional: lista de precios publicada de Volgistics (sin cambios desde julio de 2020) — el portal de voluntarios, el reloj de asistencia y el almacenamiento de documentos son complementos aparte, y cada administrador después del segundo cuesta $10/mes. Los límites de Envolv cuentan a todas las personas registradas; los perfiles archivados son gratis hasta por un año.',
-  } as L,
-  rows: [
+  notes: [
     {
-      label: { en: 'Starting price', es: 'Precio inicial' },
-      envolv: { en: 'Free up to 25 volunteers — paid from $29/mo', es: 'Gratis hasta 25 voluntarios — planes pagos desde $29/mes' },
-      modern: { en: '$143/mo + setup fee', es: '$143/mes + cuota de instalación' },
-      legacy: { en: '$9/mo bare — $17 with add-ons', es: '$9/mes básico — $17 con complementos' },
+      id: 'envolv',
+      text: {
+        en: 'Envolv: monthly list price with unlimited admins; annual billing is about 17% lower. Above 750 active volunteers is Enterprise, from $199.',
+        es: 'Envolv: precio mensual de lista con administradores ilimitados; la facturación anual cuesta alrededor de un 17% menos. Más de 750 voluntarios activos es Enterprise, desde $199.',
+      },
     },
     {
-      label: { en: '250 volunteers, 5 admins', es: '250 voluntarios, 5 administradores' },
-      envolv: { en: '$59/mo', es: '$59/mes' },
-      modern: { en: '$143+/mo + setup fee', es: '$143+/mes + cuota de instalación' },
-      legacy: { en: '$70–85/mo with add-ons + admin fees', es: '$70–85/mes con complementos + cuotas por administrador' },
+      id: 'civic',
+      text: {
+        en: 'Civic Champs: billed annually; counts volunteers active in the past year; unlimited admins. Its pricing page also shows a one-time setup fee as “$199” and “$399” without saying which applies. Kiosk check-in is included at every band. New U.S. 501(c)(3) customers can get 50% off a one-year contract through TechSoup with a budget under $1M, or 10–20% off with $1M or more.',
+        es: 'Civic Champs: facturación anual; cuenta a los voluntarios activos en el último año; administradores ilimitados. Su página de precios también muestra una cuota única de instalación como “$199” y “$399”, sin decir cuál aplica. El quiosco de registro está incluido en todos los tramos. Los clientes nuevos de EE. UU. con estatus 501(c)(3) pueden obtener un 50% de descuento en un contrato de un año a través de TechSoup si su presupuesto es menor de $1M, o entre un 10% y un 20% si es de $1M o más.',
+      },
     },
     {
-      label: { en: '500 volunteers, 10 admins', es: '500 voluntarios, 10 administradores' },
-      envolv: { en: '$89/mo', es: '$89/mes' },
-      modern: { en: '$143–288/mo + setup fee', es: '$143–288/mes + cuota de instalación' },
-      legacy: { en: '$110–135/mo with add-ons + admin fees', es: '$110–135/mes con complementos + cuotas por administrador' },
+      id: 'volgistics',
+      text: {
+        en: 'Volgistics: published price list unchanged since July 2020. It prices by records, not active volunteers — we assumed records ≈ active volunteers. Two admins included, $10/month for each additional one. The low figure adds only the VicNet volunteer portal; the high figure adds every module (portal, VicTouch time clock, VicDocs documents). No mobile app; free support is by email.',
+        es: 'Volgistics: lista de precios publicada sin cambios desde julio de 2020. Cobra por registros, no por voluntarios activos; supusimos que los registros ≈ voluntarios activos. Incluye dos administradores, y cada uno adicional cuesta $10/mes. La cifra baja suma solo el portal de voluntarios VicNet; la alta suma todos los módulos (portal, reloj VicTouch y documentos VicDocs). No tiene app móvil; el soporte gratuito es por correo.',
+      },
     },
     {
-      label: { en: 'Billing', es: 'Facturación' },
-      envolv: { en: 'Monthly or annual, cancel anytime', es: 'Mensual o anual, cancela cuando quieras' },
-      modern: { en: 'Annual contract + setup fee', es: 'Contrato anual + cuota de instalación' },
-      legacy: { en: 'Monthly', es: 'Mensual' },
+      id: 'others',
+      text: {
+        en: 'Not in the table: Better Impact (owned by The Brydon Group since November 2024), which has since bought Galaxy Digital’s Get Connected — both quote prices only on request. POINT, Golden and Timecounts have free plans, which cost less than Envolv for small programs.',
+        es: 'Fuera de la tabla: Better Impact (de The Brydon Group desde noviembre de 2024), que luego compró Get Connected de Galaxy Digital; ambas solo dan precios a pedido. POINT, Golden y Timecounts tienen planes gratuitos, que cuestan menos que Envolv para programas pequeños.',
+      },
     },
-    {
-      label: { en: 'Mobile app', es: 'App móvil' },
-      envolv: { en: 'Included on every plan', es: 'Incluida en todos los planes' },
-      modern: { en: 'Included', es: 'Incluida' },
-      legacy: { en: 'None', es: 'No tiene' },
-    },
-    {
-      label: { en: 'Volunteer portal', es: 'Portal de voluntarios' },
-      envolv: { en: 'Included on every plan', es: 'Incluido en todos los planes' },
-      modern: { en: 'Included', es: 'Incluido' },
-      legacy: { en: 'Paid add-on', es: 'Complemento pagado' },
-    },
-    {
-      label: { en: 'Admin seats', es: 'Administradores' },
-      envolv: { en: 'Included per tier', es: 'Incluidos según el plan' },
-      modern: { en: 'Scales with plan price', es: 'Aumentan con el precio del plan' },
-      legacy: { en: '$10/mo each beyond two', es: '$10/mes cada uno después del segundo' },
-    },
-    {
-      label: { en: 'Archived records', es: 'Registros archivados' },
-      envolv: { en: 'Free for up to a year', es: 'Gratis hasta por un año' },
-      modern: { en: 'Varies; often counted', es: 'Varía; suelen contar' },
-      legacy: { en: 'Counted like active records', es: 'Cuentan igual que los activos' },
-    },
-    {
-      label: { en: 'Support', es: 'Soporte' },
-      envolv: { en: 'Email support, priority by tier', es: 'Soporte por correo, prioridad según el plan' },
-      modern: { en: 'Varies by plan', es: 'Varía según el plan' },
-      legacy: { en: 'Email only', es: 'Solo por correo' },
-    },
-  ] as ComparisonRow[],
+  ],
+  sources: [
+    SOURCES.civicChampsPricing,
+    SOURCES.civicChampsTechSoup,
+    SOURCES.civicChampsFitGap,
+    SOURCES.volgisticsPrices,
+    SOURCES.volgisticsSupport,
+    SOURCES.corum,
+    SOURCES.point,
+    SOURCES.golden,
+    SOURCES.timecounts,
+  ] as Source[],
 }

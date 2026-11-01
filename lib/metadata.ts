@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import { COMPARE, type CompareSlug } from '@/lib/compare'
 import { SITE_URL, href, type Lang } from '@/lib/content'
 import { COPY } from '@/lib/copy'
 
@@ -66,6 +67,45 @@ export function demoMetadata(lang: Lang): Metadata {
 export function privacyMetadata(lang: Lang): Metadata {
   const m = COPY[lang].meta
   return { title: m.privacyTitle, description: m.privacyDescription, alternates: alternates(lang, '/privacy') }
+}
+
+/**
+ * The share image from app/opengraph-image.png (and the identical
+ * twitter-image.png). A page that sets its own `openGraph` loses the
+ * file-convention image, so those pages name it here. Alt text = the
+ * .alt.txt files next to the images.
+ */
+const SHARE_IMAGE = {
+  width: 1200,
+  height: 630,
+  alt: 'Envolv logo with the tagline "Get involved." and the line: volunteer management your volunteers will actually use, free for up to 25 volunteers.',
+}
+
+/** A comparison page (lib/compare.ts). Its own share title, so a link doesn't preview as the home page. */
+export function compareMetadata(lang: Lang, slug: CompareSlug): Metadata {
+  const doc = COMPARE[slug][lang]
+  const path = `/compare/${slug}`
+  return {
+    title: doc.metaTitle,
+    description: doc.metaDescription,
+    alternates: alternates(lang, path),
+    openGraph: {
+      title: doc.metaTitle,
+      description: doc.metaDescription,
+      url: href(lang, path),
+      siteName: 'Envolv',
+      type: 'article',
+      locale: lang === 'es' ? 'es_US' : 'en_US',
+      alternateLocale: lang === 'es' ? ['en_US'] : ['es_US'],
+      images: [{ url: '/opengraph-image.png', ...SHARE_IMAGE }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: doc.metaTitle,
+      description: doc.metaDescription,
+      images: [{ url: '/twitter-image.png', ...SHARE_IMAGE }],
+    },
+  }
 }
 
 /** Browser chrome follows the visitor's light/dark setting, like the page. */
