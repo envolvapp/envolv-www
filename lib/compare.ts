@@ -331,12 +331,12 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
       },
       wins: [
         'Kiosk check-in is included at every band. Envolv has no shared check-in station today; volunteers clock in from their own phones.',
-        'Cheaper at 1,000 to 1,499 active volunteers: $174 a month, against Envolv’s Enterprise pricing from $199.',
-        'For new U.S. 501(c)(3)s with budgets under $1M, the TechSoup discount halves the first year and puts Civic Champs below Envolv’s monthly price from 250 active volunteers up.',
+        'Cheaper from 501 to 749 active volunteers ($124 a month against Envolv’s $129) and from 751 to 1,499 ($149–$174 against Envolv’s Enterprise pricing from $199).',
+        'For new U.S. 501(c)(3)s with budgets under $1M, the TechSoup discount halves the first year and puts Civic Champs below Envolv’s monthly price at 26–49 active volunteers and at every size from 101 up.',
         'More built-in tools: digital waivers, reflections and questionnaires, event management, and integrations with Little Green Light (included) and Blackbaud (add-on).',
       ],
       envolv: [
-        'Lower list price from 50 to 750 active volunteers — $29 against $74 at 50, and $89 against $124 at 500.',
+        'Lower list price at every size up to 500 active volunteers — $29 against $74 at 50, and $89 against $124 at 500.',
         'Monthly billing and no setup fee. Annual billing is optional and about 17% off.',
         'A white-glove import of your existing records in every paid band; at Civic Champs, data import is an add-on.',
         'Clinic-shaped records: licenses and certifications with expiry dates and automatic reminders, background-check status, training and the handbook signature, tracked as onboarding stages.',
@@ -387,12 +387,12 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
       },
       wins: [
         'El quiosco de registro está incluido en todos los tramos. Envolv no tiene hoy un puesto compartido de registro; los voluntarios registran su entrada desde su propio teléfono.',
-        'Más barato entre 1,000 y 1,499 voluntarios activos: $174 al mes, frente al precio de Enterprise de Envolv desde $199.',
-        'Para organizaciones 501(c)(3) nuevas de EE. UU. con presupuesto menor de $1M, el descuento de TechSoup reduce a la mitad el primer año y deja a Civic Champs por debajo del precio mensual de Envolv desde 250 voluntarios activos.',
+        'Más barato entre 501 y 749 voluntarios activos ($124 al mes frente a $129 de Envolv) y entre 751 y 1,499 ($149–$174 frente al precio de Enterprise de Envolv desde $199).',
+        'Para organizaciones 501(c)(3) nuevas de EE. UU. con presupuesto menor de $1M, el descuento de TechSoup reduce a la mitad el primer año y deja a Civic Champs por debajo del precio mensual de Envolv entre 26 y 49 voluntarios activos y en todos los tamaños a partir de 101.',
         'Más herramientas incluidas: exenciones digitales, reflexiones y cuestionarios, gestión de eventos, e integraciones con Little Green Light (incluida) y Blackbaud (complemento).',
       ],
       envolv: [
-        'Precio de lista más bajo de 50 a 750 voluntarios activos: $29 frente a $74 con 50, y $89 frente a $124 con 500.',
+        'Precio de lista más bajo en todos los tamaños hasta 500 voluntarios activos: $29 frente a $74 con 50, y $89 frente a $124 con 500.',
         'Facturación mensual y sin cuota de instalación. La facturación anual es opcional y cuesta alrededor de un 17% menos.',
         'Importamos por ti tus registros actuales en todos los tramos pagos; en Civic Champs, la importación de datos es un complemento.',
         'Registros pensados para clínicas: licencias y certificaciones con fecha de vencimiento y recordatorios automáticos, estado de verificación de antecedentes, capacitación y la firma del manual, organizados como etapas de incorporación.',

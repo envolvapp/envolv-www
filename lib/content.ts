@@ -357,8 +357,8 @@ export const CLINIC = {
   ],
   /** The data boundary (brief §4 — attorney to confirm the final wording). */
   boundary: {
-    en: 'Volunteers, not patients. Envolv is for administering volunteers: it has no patient fields, and customers agree not to enter information about patients or the care they receive.',
-    es: 'Voluntarios, no pacientes. Envolv sirve para administrar voluntarios: no tiene campos para pacientes, y los clientes se comprometen a no ingresar información sobre pacientes ni sobre la atención que reciben.',
+    en: 'Volunteers, not patients. Envolv is for administering volunteers: it has no patient fields, and customers agree not to enter information about patients or the care they receive. Envolv does not sign business associate agreements.',
+    es: 'Voluntarios, no pacientes. Envolv sirve para administrar voluntarios: no tiene campos para pacientes, y los clientes se comprometen a no ingresar información sobre pacientes ni sobre la atención que reciben. Envolv no firma acuerdos de asociado comercial (BAA).',
   } as L,
 }
 

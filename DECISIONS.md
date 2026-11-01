@@ -226,8 +226,8 @@ organization archives are kept free until it deletes them, and an organization's
 is deleted from live systems 90 days after its account closes, after a notice
 explaining how to export it. It also adds the customer commitment not to enter
 information about patients or the care they receive. **The attorney should review
-these edits** together with the data-boundary wording (brief §4, including the
-"no business associate agreements" line, which is deliberately not on the site yet).
-Subscription Agreement v1.1 still states a 30-day export window, deletion within 60
-days, and the 12-month archive; it needs the same change, or the two documents
-disagree.
+these edits** together with the data-boundary wording (brief §4). Update the same
+night: the "Envolv does not sign business associate agreements" line is now on the
+site too (privacy policy and the clinic note), matching Subscription Agreement v1.2
+§5.6. Agreement v1.2 also adopted the same archive and 90-day deletion rules
+(§§1.6, 4.4), so the two documents agree.

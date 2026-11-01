@@ -15,17 +15,17 @@
  *     this site loads none.
  *   - Demo requests: envolv-www app/actions.ts → Resend email + Notion "Website
  *     Leads" (lib/leads.ts). support@ mail: app/api/inbound (Resend inbox).
- *   - Subprocessors, 72-hour incident notice: Subscription Agreement v1.1
+ *   - Subprocessors, 72-hour incident notice: Subscription Agreement v1.2
  *     §§1.2, 4.4, 5.4, 5.7, 6.2.
  *   - Retention (changed 2026-10-31, founders' action plan): archived records
  *     are kept free until the customer deletes them; an account's data is
  *     deleted 90 days after the account closes, after an export notice. This
  *     REPLACES the 12-month archive rule and the 30-day export / 60-day
- *     deletion windows, which Subscription Agreement v1.1 still states —
- *     the attorney must review these edits and bring the Agreement into line
- *     (DECISIONS 2026-10-31).
+ *     deletion windows. Subscription Agreement v1.2 (§§1.6, 4.4) says the
+ *     same; the attorney reviews both (DECISIONS 2026-10-31).
  *   - No patient information: customer commitment from the same plan (brief
- *     §4, "data boundary"); attorney to confirm the wording.
+ *     §4, "data boundary", including "no business associate agreements", as in
+ *     Subscription Agreement v1.2 §5.6); attorney to confirm the wording.
  *   - Data location: Supabase production project region us-west-1.
  *
  * If one of those changes (a new subprocessor, a payment processor, a
@@ -125,7 +125,7 @@ export const PRIVACY: Record<Lang, PrivacyDoc> = {
             p: 'We do not sell personal information, we do not share it for targeted advertising, and we do not use volunteers’ contact details to market to them.',
           },
           {
-            p: 'Envolv is for administering volunteers. Organizations that use Envolv agree not to enter information about patients or the care they receive.',
+            p: 'Envolv is for administering volunteers. Organizations that use Envolv agree not to enter information about patients or the care they receive. Envolv does not sign business associate agreements.',
           },
         ],
       },
@@ -370,7 +370,7 @@ export const PRIVACY: Record<Lang, PrivacyDoc> = {
             p: 'No vendemos información personal, no la compartimos para publicidad dirigida y no usamos los datos de contacto de los voluntarios para enviarles publicidad.',
           },
           {
-            p: 'Envolv sirve para administrar voluntarios. Las organizaciones que usan Envolv se comprometen a no ingresar información sobre pacientes ni sobre la atención que reciben.',
+            p: 'Envolv sirve para administrar voluntarios. Las organizaciones que usan Envolv se comprometen a no ingresar información sobre pacientes ni sobre la atención que reciben. Envolv no firma acuerdos de asociado comercial (BAA, por sus siglas en inglés).',
           },
         ],
       },
