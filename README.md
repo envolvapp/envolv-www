@@ -1,7 +1,8 @@
 # envolv-www
 
 The envolv.org marketing site — English at `/`, Spanish at `/es`, light or dark to
-match the visitor's system setting. One landing page + a live-demo page + demo-request capture.
+match the visitor's system setting. One landing page + a live-demo page + three
+comparison pages (`/compare/…`) + the privacy policy + demo-request capture.
 
 This is **Workstream B** of the Envolv roadmap (`ROADMAP.md` in the `medvolunteer`
 repo). It is deliberately a separate repo — see [DECISIONS.md](./DECISIONS.md).
@@ -52,13 +53,26 @@ Copy `.env.example` → `.env.local`. Set the same vars on the Vercel project.
 ## Content
 
 All copy that makes a **claim** — pricing, competitor figures, vertical list — lives
-in `lib/content.ts`, not scattered through JSX. Every number there traces to a
-founder doc in the medvolunteer repo root (`volunteer-saas-business-plan-v2.pdf`,
-`industry-targeting-strategy.pdf`). Change the doc, change `content.ts`.
+in `lib/content.ts` (and, for the comparison pages, `lib/compare.ts`), not scattered
+through JSX. Pricing and positioning follow the founders' action plan of 2026-10-31:
+**one plan, priced in bands by active volunteers** (anyone with a completed shift,
+clock-in or logged hour in the past 12 months), unlimited admins on every paid band,
+no feature gates, clinics as the lead audience. Competitor figures carry their
+sources and the date they were checked (`AS_OF`, `SOURCES`). Change the decision,
+change `content.ts`.
 
-**Pricing cards list only what ships today** (2026-10-30 — this replaced the
-"Soon" badges). A roadmap feature is not on the site at all until it's live in the
-app; when it lands, add it to its tier in `content.ts`.
+**The site lists only what ships today** (2026-10-30 — this replaced the "Soon"
+badges). A roadmap feature is not on the site at all until it's live in the app;
+when it lands, add it to `PAID_FEATURES` in `content.ts` (every paid band gets it).
+The header comment of `content.ts` lists what was checked against the app and when.
+
+**Comparison pages** (`/compare/volgistics-alternative-for-clinics`,
+`/compare/get-connected-alternative`, `/compare/envolv-vs-civic-champs`, and the same
+under `/es`) are one component, `components/ComparePage.tsx`, fed by `lib/compare.ts`.
+Their price rows are computed from `BANDS` / `PRICE_POINTS`, so they can't drift from
+the pricing section. Named competitors appear only in these dated, sourced
+comparisons and the home page's comparison table (DECISIONS 2026-10-31). Re-check
+every competitor figure, and bump `AS_OF`, whenever you touch them.
 
 **Both languages live in the same file.** Every visible claim in `content.ts` is an
 `{ en, es }` pair, and the interface copy (headings, buttons, form labels) is in
@@ -71,8 +85,9 @@ The Spanish uses "tú", like the Envolv apps, and still needs a native speaker's
 
 - `app/(en)/` and `app/(es)/es/` are two route groups, each with its **own root
   layout**, so the static HTML ships with the right `<html lang>`. Both render the
-  same `components/HomePage.tsx` / `components/DemoPage.tsx` with a `lang` prop.
-  A new page = add it under both groups (and to `app/sitemap.ts`).
+  same `components/HomePage.tsx` / `DemoPage.tsx` / `PrivacyPage.tsx` /
+  `ComparePage.tsx` with a `lang` prop. A new page = add it under both groups (and
+  to `app/sitemap.ts`; comparison pages come from `COMPARE_SLUGS` automatically).
 - `LangSwitch` (header + footer) links to the same page in the other language; every
   page carries `hreflang` alternates (`lib/metadata.ts`). There is no automatic
   redirect by browser language — that would hide one version from search engines.
@@ -142,7 +157,7 @@ The visitor sees an error only when **both** fail; one failure alone is logged i
 Vercel → Logs and the lead still lands. "Email alert sent" unchecked on a row means
 the email failed and that row is the only record. Column names in `lib/leads.ts` must
 match the database exactly — rename a column there, rename it here. The form's
-"How many volunteers?" values match the plan walls (25 / 100 / 250 / 500 / 750) and carry
+"How many active volunteers?" values match the band walls (25 / 100 / 250 / 500 / 750) and carry
 no commas, because Notion select options can't contain them. Values are English on
 both language versions so the Notion options don't fork.
 

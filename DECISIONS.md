@@ -31,6 +31,9 @@ them, and why the form shows the visitor a fallback address rather than a fake s
 
 ## 2026-07-12 — Named competitor comparison
 
+*Superseded and extended 2026-10-31 — see "Named competitors only in dated, sourced
+comparisons" below.*
+
 The comparison table cites the incumbent's *published* rate card and labels the column
 "Legacy incumbents" rather than naming a company in a headline claim. Volgistics is
 named only in the demo form's placeholder text ("Spreadsheets, Volgistics, a group text
@@ -109,6 +112,10 @@ flips accordingly: envolv.org (+ www) → this Vercel project.
 
 ## 2026-10-30 — Pricing cards list only what ships
 
+*The shipped-only rule stands. The ladder's meter ("everyone on file"), the 12-month
+archive, the per-tier admin seats and the cumulative tier cards were replaced
+2026-10-31 — see "One plan, priced by active volunteers" below.*
+
 The all-hands asked for every "Soon" feature to come off the pricing tiers. They're
 gone — not badged, gone — and so is the `soon()` helper and the `SoonBadge`
 component. This reverses the 2026-10-26 call above: the team would rather the cards
@@ -139,3 +146,88 @@ promise it at that tier.
   existing color tokens inside `@media (prefers-color-scheme: light)`; every text stop
   was checked for WCAG AA on both light surfaces. Two semantic tokens replace
   `text-white`: `text-heading` (flips) and `text-on-brand` (stays white on emerald).
+
+## 2026-10-31 — One plan, priced by active volunteers
+
+All three co-founders approved an action plan (Claude Doc "Envolv Plan Review and
+Action Plan"; summary in ACTION-PLAN-BRIEF). On this site:
+
+- **Meter = active volunteers**: anyone with a completed shift, clock-in or logged
+  hour in the past 12 months. Applicants, inactive volunteers and archived records
+  are never billed, on any plan. Archive is free and never expires. Replaces the
+  2026-10-30 "everyone on file" rule and the 12-month archive.
+- **One plan, priced in bands** — same prices and edges as 10-30: Free ≤25 (1 admin)
+  / Starter $29 ≤100 / Growth $59 101–250 / Professional $89 251–500 / Premier $129
+  501–750 / Enterprise from $199 above 750; annual $24/$49/$74/$107. **Unlimited
+  admins on every paid band**, every shipped feature in every paid band, and the
+  white-glove import in every paid band (no longer Premier-only — which settles the
+  open question in the 10-30 entry). Support is the only thing that changes with
+  size. Grace: warning at 90%, 10% over for 60 days; annual plans true up at renewal.
+- **The pricing UI is one band selector** (native radio buttons, so arrow keys work)
+  driving one price card, with the meter explained right under it, and Enterprise
+  and Free as strips. The tier cards, `seatsLabel`, per-tier seats and the "Most
+  popular" badge are gone — with no paying customers yet, "most popular" was a claim
+  nobody could back.
+- **30-day trial of any paid band, no card, ends in Free.** Free is pitched as "free
+  for small programs", not as a match for POINT's or Golden's unlimited free plans.
+  The brief gives Free "help center" support; there is no help center, so Free shows
+  no support line until one exists.
+- **Clinics first.** Free and charitable clinics lead the hero and have their own
+  section; the other verticals follow as "also built for". The clinic section claims
+  only what the app does today (checked against medvolunteer 2026-10-31): credential
+  records with expiry reminders and an expiry report, role-restricted shifts,
+  onboarding stages, Spanish. Role-mix shifts, student rotations, hours-verification
+  letters and kiosk check-in are not built and are not mentioned.
+- **Taken off the site** because they aren't shipped or aren't settled: "Logo
+  branding" (branding is a roadmap item), Enterprise's "custom integrations" and
+  "security review & DPA" (no integrations exist; the DPA awaits the attorney, F15),
+  the nonprofit blurb's "template" (industry templates are F3), and the clinic
+  blurb's "already running live at a free clinic" (Yakima goes live 2026-11-16;
+  restore it with `HERO_BADGE` on 2026-11-23).
+- **Not built in the app yet**: the active-volunteer count and band billing (F1/F2,
+  Dec 2026) and volunteer archiving (F17, to be re-specified as indefinite). The
+  site states the billing policy; the product has to catch up before Stripe charges
+  anyone. Pricing is frozen until 15 customers pay list price.
+
+## 2026-10-31 — Named competitors only in dated, sourced comparisons
+
+Supersedes and extends 2026-07-12. Named competitors now appear **only** in dated,
+sourced comparisons: the three dedicated comparison pages (`/compare/…`, in both
+languages, content in `lib/compare.ts`) and the home page's comparison table, which
+carries the same date, footnotes and source links. Never in the hero, headlines,
+feature copy or metadata of any other page, and no unsourced superlatives anywhere.
+(The demo form's "Spreadsheets, Volgistics, a group text thread…" placeholder stays:
+it describes what a visitor might use, it doesn't compare.)
+
+Every comparison must be **factual** (each figure traces to a URL in `SOURCES`),
+**dated** (`AS_OF`, shown on the page), and must **say plainly where the competitor
+wins** — Volgistics is cheaper on sticker; Civic Champs includes kiosk check-in and
+is cheaper at 1,000 actives; POINT, Golden and Timecounts have free plans. Get
+Connected and Better Impact are quote-only, so their page compares approach,
+transparency and features, never a guessed price. The migration offer (free
+white-glove import + first month free for organizations leaving Volgistics or Get
+Connected) appears on the comparison pages and the home comparison section.
+
+The table replaced the old "Modern platforms / Legacy à la carte" columns and the
+"25-year-old software that nickel-and-dimes you" line, which were unsourced. When a
+competitor's prices change: update `PRICE_POINTS`, re-read every sentence in
+`lib/compare.ts` that quotes a number, and bump `AS_OF`.
+
+Sources checked 2026-10-31: civicchamps.com/pricing and /techsoup; FitGap's Civic
+Champs page (returned HTTP 410 to a plain `curl` that day but loaded in a browser
+fetch — re-check it); Volgistics' price list (effective 2020-07-15) and support page;
+Corum Group on Better Impact / The Brydon Group; Better Impact's "better-together"
+and features pages; galaxydigital.com; POINT, Golden and Timecounts pricing pages.
+
+## 2026-10-31 — Privacy policy: archive retention and no patient data (attorney to review)
+
+`lib/privacy.ts` (both languages) now matches the new archive policy: records an
+organization archives are kept free until it deletes them, and an organization's data
+is deleted from live systems 90 days after its account closes, after a notice
+explaining how to export it. It also adds the customer commitment not to enter
+information about patients or the care they receive. **The attorney should review
+these edits** together with the data-boundary wording (brief §4, including the
+"no business associate agreements" line, which is deliberately not on the site yet).
+Subscription Agreement v1.1 still states a 30-day export window, deletion within 60
+days, and the 12-month archive; it needs the same change, or the two documents
+disagree.
