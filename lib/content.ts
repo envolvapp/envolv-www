@@ -204,9 +204,14 @@ export const PAID_FEATURES: L[] = [
 ]
 
 /**
- * The Free plan renders as a strip, not in the band selector — it's for small
- * programs and the landing pad for trials that end without a plan. It is NOT
- * pitched against POINT's or Golden's unlimited free plans (brief §2).
+ * The Free plan is the FIRST option in the band selector ("Up to 25 · Free"),
+ * so small programs find it immediately (Sean, 2026-10-31). The selector still
+ * opens on Starter, where clinics land. Free is for small programs and the
+ * landing pad for trials that end without a plan; it is NOT pitched against
+ * POINT's or Golden's unlimited free plans (brief §2).
+ *
+ * `includes` names only what `blurb` always said Free has — Free's exact
+ * feature set beyond that isn't decided, so nothing else is claimed for it.
  *
  * The brief gives Free "help center" support; there is no help center yet, so
  * no support line is shown for Free until there is one.
@@ -218,6 +223,22 @@ export const FREE_TIER = {
   blurb: {
     en: 'Free for small programs: scheduling, hour tracking and the volunteer app, with unlimited applicants and archive. No card, no time limit.',
     es: 'Gratis para programas pequeños: turnos, registro de horas y la app para voluntarios, con solicitudes y archivo ilimitados. Sin tarjeta y sin límite de tiempo.',
+  } as L,
+  /** One line next to the $0. */
+  short: {
+    en: 'Free for small programs — no card, no time limit.',
+    es: 'Gratis para programas pequeños: sin tarjeta y sin límite de tiempo.',
+  } as L,
+  includes: [
+    { en: 'Volunteer app for any phone, plus a self-service portal', es: 'App para voluntarios en cualquier teléfono y un portal de autoservicio' },
+    { en: 'Shift scheduling', es: 'Programación de turnos' },
+    { en: 'Clock-in from the phone and hour tracking', es: 'Registro de entrada desde el teléfono y seguimiento de horas' },
+    { en: 'Unlimited applicants and archive', es: 'Solicitudes y archivo ilimitados' },
+  ] as L[],
+  /** Under the Free card's button. */
+  upgrade: {
+    en: 'Need more admins, more volunteers or the white-glove import? Every paid band includes them, and your records come with you.',
+    es: '¿Necesitas más administradores, más voluntarios o que importemos tus registros? Todos los tramos pagos lo incluyen, y tus registros vienen contigo.',
   } as L,
 }
 

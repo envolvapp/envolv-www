@@ -231,3 +231,21 @@ night: the "Envolv does not sign business associate agreements" line is now on t
 site too (privacy policy and the clinic note), matching Subscription Agreement v1.2
 §5.6. Agreement v1.2 also adopted the same archive and 90-day deletion rules
 (§§1.6, 4.4), so the two documents agree.
+
+## 2026-10-31 — Free leads the band selector
+
+**Decided (Sean, 2026-10-31, late):** Free is the first option in the pricing
+band selector — "Up to 25 · Free" — so a small program sees it immediately
+instead of finding it in a strip under the paid card. The Free strip is gone;
+choosing Free swaps the price card to $0, 1 admin, "Request a free account" and
+what Free includes (`FREE_TIER.includes`, which names only what the Free blurb
+already said). In the selector Starter reads "26–100" so the options don't
+overlap; its card still says "Up to 100".
+
+The selector still **opens on Starter**. The case against making Free the
+default, recorded with the decision: the beachhead clinics (50–250 active) don't
+fit Free; leading with "$0, 25 volunteers" invites the comparison with POINT's
+and Golden's unlimited free plans, which Envolv loses, where "$29 for up to 100"
+invites the one with Civic Champs' $74, which it wins; and the sign-up path the
+plan relies on is a 30-day trial of a full paid band that falls back to Free.
+Prices are unchanged, so the pricing freeze is untouched.
