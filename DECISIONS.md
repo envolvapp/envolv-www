@@ -152,7 +152,8 @@ promise it at that tier.
 All three co-founders approved an action plan (Claude Doc "Envolv Plan Review and
 Action Plan"; summary in ACTION-PLAN-BRIEF). On this site:
 
-- **Meter = active volunteers**: anyone with a completed shift, clock-in or logged
+- **Meter = active volunteers** *(redefined 2026-11-12 — see "Applicants count as
+  active volunteers" below)*: anyone with a completed shift, clock-in or logged
   hour in the past 12 months. Applicants, inactive volunteers and archived records
   are never billed, on any plan. Archive is free and never expires. Replaces the
   2026-10-30 "everyone on file" rule and the 12-month archive.
@@ -206,7 +207,8 @@ is cheaper at 1,000 actives; POINT, Golden and Timecounts have free plans. Get
 Connected and Better Impact are quote-only, so their page compares approach,
 transparency and features, never a guessed price. The migration offer (free
 white-glove import + first month free for organizations leaving Volgistics or Get
-Connected) appears on the comparison pages and the home comparison section.
+Connected) appeared on the comparison pages and the home comparison section until
+2026-11-12, when the free first month was withdrawn (see below).
 
 The table replaced the old "Modern platforms / Legacy à la carte" columns and the
 "25-year-old software that nickel-and-dimes you" line, which were unsourced. When a
@@ -249,3 +251,25 @@ and Golden's unlimited free plans, which Envolv loses, where "$29 for up to 100"
 invites the one with Civic Champs' $74, which it wins; and the sign-up path the
 plan relies on is a 30-day trial of a full paid band that falls back to Free.
 Prices are unchanged, so the pricing freeze is untouched.
+
+## 2026-11-12 — Applicants count as active volunteers; no free first month for switchers
+
+Sean, 2026-11-12. Two changes:
+
+- **Applicants count as active volunteers.** The meter is now everyone on file —
+  current volunteers, prospects in onboarding and applicants — except volunteers
+  marked inactive and archived records. Only those two are never billed. There is no
+  12-month activity window any more. Replaces the 2026-10-31 meter ("served in the
+  past 12 months; applicants free"). The label "active volunteers" stays everywhere
+  (band selector, comparison tables); `PLAN_RULES` in `content.ts` defines it, and the
+  demo form's size hint says "Applicants count; inactive and archived don't."
+  The comparison pages say what this means against each competitor: Envolv now bills
+  applicants (Better Impact doesn't) but not inactive volunteers (Volgistics and
+  Better Impact do), and the Civic Champs page notes the two count differently, so the
+  same program can land in a higher band on Envolv.
+- **The free first month for organizations leaving Volgistics or Get Connected is
+  withdrawn.** The home page's "Leaving Volgistics or Get Connected?" callout
+  (`MIGRATION_OFFER`) is deleted, and the comparison pages' "Switching" sections no
+  longer mention a free month. The white-glove import itself is unchanged — it's in
+  every paid band — so the switching sections still say so. The 30-day trial is
+  unchanged.

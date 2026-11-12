@@ -113,7 +113,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
         caption: 'Envolv and Volgistics compared',
         head: ['', 'Envolv', 'Volgistics'],
         rows: [
-          ['What you pay for', 'Active volunteers: anyone who served in the past 12 months', 'Every non-archived record, applicants and inactive volunteers included'],
+          ['What you pay for', 'Active volunteers: everyone on file, applicants included, except inactive volunteers and archived records', 'Every non-archived record, applicants and inactive volunteers included'],
           ['Archived records', 'Free, and kept until you delete them', '50 stored free; more storage is billed monthly'],
           ['Admins', 'Unlimited on every paid band', 'Two included; $10 a month for each additional admin'],
           ['Volunteer portal', 'Included', 'VicNet, a paid add-on'],
@@ -133,14 +133,14 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
       ],
       envolv: [
         'Unlimited admins on every paid band, so every coordinator, shift lead and clinic manager can have their own login at no extra cost.',
-        'You pay for active volunteers only. Applicants, inactive volunteers and archived records are free, and the archive never expires.',
+        'You never pay for volunteers you mark inactive or for archived records, and the archive never expires.',
         'The volunteer app, portal, phone clock-in and document storage are included. There are no add-on modules.',
         'Clinic-shaped records: licenses and certifications with expiry dates and automatic reminders, background-check status, training and the handbook signature, tracked as onboarding stages.',
         'Shifts limited to a role, push reminders before each shift, and full English and Spanish for volunteers and coordinators.',
         'Monthly billing with no setup fee, or about 17% off when billed annually.',
       ],
       switching: [
-        'Leaving Volgistics? We import your existing volunteer records for you, free, and your first month is free.',
+        'Leaving Volgistics? We import your existing volunteer records for you, included in every paid band.',
         TRIAL_LINE.en,
       ],
       sources: [SOURCES.volgisticsPrices, SOURCES.volgisticsSupport, SOURCES.volgisticsHelp],
@@ -171,7 +171,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
         caption: 'Envolv y Volgistics comparados',
         head: ['', 'Envolv', 'Volgistics'],
         rows: [
-          ['Por qué pagas', 'Voluntarios activos: quien participó en los últimos 12 meses', 'Cada registro no archivado, incluidas solicitudes y voluntarios inactivos'],
+          ['Por qué pagas', 'Voluntarios activos: todas las personas registradas, incluidos los solicitantes, salvo los voluntarios inactivos y los registros archivados', 'Cada registro no archivado, incluidas solicitudes y voluntarios inactivos'],
           ['Registros archivados', 'Gratis, y se guardan hasta que tú los borres', '50 gratis; más espacio se cobra cada mes'],
           ['Administradores', 'Ilimitados en todos los tramos pagos', 'Dos incluidos; $10 al mes por cada administrador adicional'],
           ['Portal de voluntarios', 'Incluido', 'VicNet, un complemento pagado'],
@@ -191,14 +191,14 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
       ],
       envolv: [
         'Administradores ilimitados en todos los tramos pagos, para que cada coordinador, responsable de turno y gerente de la clínica tenga su propio acceso sin costo extra.',
-        'Solo pagas por voluntarios activos. Las solicitudes, los voluntarios inactivos y los registros archivados son gratis, y el archivo no vence.',
+        'Nunca pagas por los voluntarios que marques como inactivos ni por los registros archivados, y el archivo no vence.',
         'La app para voluntarios, el portal, el registro de entrada desde el teléfono y el almacenamiento de documentos están incluidos. No hay módulos adicionales.',
         'Registros pensados para clínicas: licencias y certificaciones con fecha de vencimiento y recordatorios automáticos, estado de verificación de antecedentes, capacitación y la firma del manual, organizados como etapas de incorporación.',
         'Turnos limitados a un rol, recordatorios push antes de cada turno, y todo en inglés y español para voluntarios y coordinadores.',
         'Facturación mensual sin cuota de instalación, o alrededor de un 17% menos con facturación anual.',
       ],
       switching: [
-        '¿Dejas Volgistics? Importamos por ti tus registros de voluntarios actuales, gratis, y tu primer mes es gratis.',
+        '¿Dejas Volgistics? Importamos por ti tus registros de voluntarios actuales, incluido en todos los tramos pagos.',
         TRIAL_LINE.es,
       ],
       sources: [SOURCES.volgisticsPrices, SOURCES.volgisticsSupport, SOURCES.volgisticsHelp],
@@ -223,7 +223,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
         head: ['', 'Envolv', 'Get Connected', 'Better Impact'],
         rows: [
           ['Published prices', 'Yes — $29 to $129 a month by size; Enterprise from $199', 'No — quote after a call', 'No — quote after a call'],
-          ['What you pay for', 'Active volunteers: anyone who served in the past 12 months', 'Not published', 'Accepted and inactive profiles; applicants and archived profiles are free'],
+          ['What you pay for', 'Active volunteers: everyone on file, applicants included, except inactive volunteers and archived records', 'Not published', 'Accepted and inactive profiles; applicants and archived profiles are free'],
           ['Admins', 'Unlimited on every paid band', 'Not published', '3, 10 or unlimited, by plan'],
           ['Feature tiers', 'None — every paid band has every feature', 'Not published', 'Three plans (Foundation, Growth, Impact) with different features'],
           ['Monthly billing', 'Yes; annual billing is about 17% off', 'Not published', 'Not published'],
@@ -238,12 +238,12 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
       envolv: [
         'Your price is on the page: $29 to $129 a month by active volunteers, with Enterprise from $199. No sales call needed to find out.',
         'One plan. Every paid band gets every feature and unlimited admins; only the price changes with size.',
-        'Applicants, inactive volunteers and archived records are never billed, and the archive never expires.',
+        'Volunteers you mark inactive and archived records are never billed, and the archive never expires.',
         'Monthly billing with no setup fee, or about 17% off when billed annually.',
         'Focused on clinics: credential tracking with expiry reminders, shifts limited to a role, background-check status and training as onboarding stages, and full English and Spanish.',
       ],
       switching: [
-        'Leaving Get Connected? We import your existing volunteer records for you, free, and your first month is free.',
+        'Leaving Get Connected? We import your existing volunteer records for you, included in every paid band.',
         TRIAL_LINE.en,
       ],
       sources: [SOURCES.getConnected, SOURCES.betterImpactGetConnected, SOURCES.betterImpactPlans, SOURCES.corum],
@@ -264,7 +264,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
         head: ['', 'Envolv', 'Get Connected', 'Better Impact'],
         rows: [
           ['Precios publicados', 'Sí: de $29 a $129 al mes según el tamaño; Enterprise desde $199', 'No: cotización después de una llamada', 'No: cotización después de una llamada'],
-          ['Por qué pagas', 'Voluntarios activos: quien participó en los últimos 12 meses', 'No publicado', 'Perfiles aceptados e inactivos; las solicitudes y los perfiles archivados son gratis'],
+          ['Por qué pagas', 'Voluntarios activos: todas las personas registradas, incluidos los solicitantes, salvo los voluntarios inactivos y los registros archivados', 'No publicado', 'Perfiles aceptados e inactivos; las solicitudes y los perfiles archivados son gratis'],
           ['Administradores', 'Ilimitados en todos los tramos pagos', 'No publicado', '3, 10 o ilimitados, según el plan'],
           ['Niveles de funciones', 'Ninguno: todos los tramos pagos tienen todas las funciones', 'No publicado', 'Tres planes (Foundation, Growth, Impact) con funciones distintas'],
           ['Facturación mensual', 'Sí; la anual cuesta alrededor de un 17% menos', 'No publicado', 'No publicado'],
@@ -279,12 +279,12 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
       envolv: [
         'Tu precio está en la página: de $29 a $129 al mes según tus voluntarios activos, y Enterprise desde $199. No hace falta una llamada de ventas para saberlo.',
         'Un solo plan. Todos los tramos pagos tienen todas las funciones y administradores ilimitados; solo el precio cambia con el tamaño.',
-        'Las solicitudes, los voluntarios inactivos y los registros archivados nunca se cobran, y el archivo no vence.',
+        'Los voluntarios que marques como inactivos y los registros archivados nunca se cobran, y el archivo no vence.',
         'Facturación mensual sin cuota de instalación, o alrededor de un 17% menos con facturación anual.',
         'Pensado para clínicas: seguimiento de credenciales con avisos de vencimiento, turnos limitados a un rol, estado de verificación de antecedentes y capacitación como etapas de incorporación, y todo en inglés y español.',
       ],
       switching: [
-        '¿Dejas Get Connected? Importamos por ti tus registros de voluntarios actuales, gratis, y tu primer mes es gratis.',
+        '¿Dejas Get Connected? Importamos por ti tus registros de voluntarios actuales, incluido en todos los tramos pagos.',
         TRIAL_LINE.es,
       ],
       sources: [SOURCES.getConnected, SOURCES.betterImpactGetConnected, SOURCES.betterImpactPlans, SOURCES.corum],
@@ -300,7 +300,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
         'Envolv and Civic Champs compared: monthly prices from 50 to 1,000 active volunteers, setup fees, billing, kiosk check-in and clinic features, with sources. Checked October 31, 2026.',
       title: 'Envolv vs. Civic Champs',
       intro: [
-        'Civic Champs is the product closest to Envolv in how it charges: both bill by active volunteers and include unlimited admins. The differences are in price, billing terms and features. Civic Champs’ figures come from its own pricing and TechSoup pages.',
+        'Civic Champs is the product closest to Envolv in how it charges: both bill by active volunteers and include unlimited admins, though they count them differently (see “What you pay for” below). The other differences are in price, billing terms and features. Civic Champs’ figures come from its own pricing and TechSoup pages.',
       ],
       competitor: 'Civic Champs',
       prices: {
@@ -309,7 +309,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
           caption: 'Monthly price by number of active volunteers: Envolv and Civic Champs list price',
           head: ['Active volunteers', 'Envolv', 'Civic Champs (list price)'],
           rows: priceRows('en', 'civicChamps'),
-          note: 'Civic Champs bills annually (quarterly and three-year terms are also offered) and adds a one-time setup fee its pricing page shows as “$199” and “$399” without saying which applies. Envolv’s prices are monthly; annual billing is about 17% lower.',
+          note: 'Civic Champs bills annually (quarterly and three-year terms are also offered) and adds a one-time setup fee its pricing page shows as “$199” and “$399” without saying which applies. Envolv’s prices are monthly; annual billing is about 17% lower. The two count differently: Envolv counts applicants and everyone not marked inactive or archived, while Civic Champs counts volunteers active in the past year — so the same program can land in a higher band on Envolv.',
         },
         body: [
           'Through TechSoup, new U.S. 501(c)(3) customers with budgets under $1M get 50% off a one-year Civic Champs contract: $49.50 a month at 250 active volunteers and $62 at 500, below Envolv’s monthly prices of $59 and $89. Budgets of $1M or more get 10–20% off.',
@@ -319,7 +319,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
         caption: 'Envolv and Civic Champs compared',
         head: ['', 'Envolv', 'Civic Champs'],
         rows: [
-          ['What you pay for', 'Volunteers active in the past 12 months', 'Volunteers active in the past year'],
+          ['What you pay for', 'Everyone on file, applicants included, except inactive volunteers and archived records', 'Volunteers active in the past year'],
           ['Admins', 'Unlimited', 'Unlimited'],
           ['Billing', 'Monthly, or annual at about 17% off', 'Annual; quarterly and three-year terms also offered'],
           ['Setup fee', 'None', 'One-time fee, shown as $199 and $399'],
@@ -344,7 +344,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
         'Archived records are free and never expire.',
       ],
       switching: [
-        'Every paid band includes a white-glove import of your existing volunteer records. Moving from Volgistics or Get Connected instead? Your first month is free, too.',
+        'Every paid band includes a white-glove import of your existing volunteer records.',
         TRIAL_LINE.en,
       ],
       sources: [SOURCES.civicChampsPricing, SOURCES.civicChampsTechSoup, SOURCES.civicChampsFitGap],
@@ -356,7 +356,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
         'Envolv y Civic Champs comparados: precios mensuales de 50 a 1,000 voluntarios activos, cuotas de instalación, facturación, quiosco de registro y funciones para clínicas, con fuentes. Verificado el 31 de octubre de 2026.',
       title: 'Envolv vs. Civic Champs',
       intro: [
-        'Civic Champs es el producto más parecido a Envolv en su forma de cobrar: los dos cobran por voluntarios activos e incluyen administradores ilimitados. Las diferencias están en el precio, las condiciones de facturación y las funciones. Las cifras de Civic Champs vienen de sus propias páginas de precios y de TechSoup.',
+        'Civic Champs es el producto más parecido a Envolv en su forma de cobrar: los dos cobran por voluntarios activos e incluyen administradores ilimitados, aunque los cuentan de forma distinta (ver “Por qué pagas” más abajo). Las demás diferencias están en el precio, las condiciones de facturación y las funciones. Las cifras de Civic Champs vienen de sus propias páginas de precios y de TechSoup.',
       ],
       competitor: 'Civic Champs',
       prices: {
@@ -365,7 +365,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
           caption: 'Precio mensual según el número de voluntarios activos: Envolv y el precio de lista de Civic Champs',
           head: ['Voluntarios activos', 'Envolv', 'Civic Champs (precio de lista)'],
           rows: priceRows('es', 'civicChamps'),
-          note: 'Civic Champs factura de forma anual (también ofrece plazos trimestrales y de tres años) y suma una cuota única de instalación que su página de precios muestra como “$199” y “$399”, sin decir cuál aplica. Los precios de Envolv son mensuales; la facturación anual cuesta alrededor de un 17% menos.',
+          note: 'Civic Champs factura de forma anual (también ofrece plazos trimestrales y de tres años) y suma una cuota única de instalación que su página de precios muestra como “$199” y “$399”, sin decir cuál aplica. Los precios de Envolv son mensuales; la facturación anual cuesta alrededor de un 17% menos. Los dos cuentan de forma distinta: Envolv cuenta a los solicitantes y a todas las personas que no estén marcadas como inactivas ni archivadas, y Civic Champs cuenta a los voluntarios activos en el último año, así que el mismo programa puede caer en un tramo más alto en Envolv.',
         },
         body: [
           'A través de TechSoup, los clientes nuevos de EE. UU. con estatus 501(c)(3) y presupuesto menor de $1M obtienen un 50% de descuento en un contrato de un año con Civic Champs: $49.50 al mes con 250 voluntarios activos y $62 con 500, por debajo de los precios mensuales de Envolv de $59 y $89. Con presupuestos de $1M o más, el descuento es de entre un 10% y un 20%.',
@@ -375,7 +375,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
         caption: 'Envolv y Civic Champs comparados',
         head: ['', 'Envolv', 'Civic Champs'],
         rows: [
-          ['Por qué pagas', 'Voluntarios activos en los últimos 12 meses', 'Voluntarios activos en el último año'],
+          ['Por qué pagas', 'Todas las personas registradas, incluidos los solicitantes, salvo los voluntarios inactivos y los registros archivados', 'Voluntarios activos en el último año'],
           ['Administradores', 'Ilimitados', 'Ilimitados'],
           ['Facturación', 'Mensual, o anual con alrededor de un 17% menos', 'Anual; también plazos trimestrales y de tres años'],
           ['Cuota de instalación', 'Ninguna', 'Cuota única, que muestra como $199 y $399'],
@@ -400,7 +400,7 @@ export const COMPARE: Record<CompareSlug, Record<Lang, CompareDoc>> = {
         'Los registros archivados son gratis y no vencen.',
       ],
       switching: [
-        'Todos los tramos pagos incluyen la importación de tus registros de voluntarios actuales, hecha por nosotros. ¿Vienes de Volgistics o de Get Connected? Tu primer mes también es gratis.',
+        'Todos los tramos pagos incluyen la importación de tus registros de voluntarios actuales, hecha por nosotros.',
         TRIAL_LINE.es,
       ],
       sources: [SOURCES.civicChampsPricing, SOURCES.civicChampsTechSoup, SOURCES.civicChampsFitGap],

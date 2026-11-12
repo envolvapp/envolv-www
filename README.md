@@ -55,8 +55,9 @@ Copy `.env.example` → `.env.local`. Set the same vars on the Vercel project.
 All copy that makes a **claim** — pricing, competitor figures, vertical list — lives
 in `lib/content.ts` (and, for the comparison pages, `lib/compare.ts`), not scattered
 through JSX. Pricing and positioning follow the founders' action plan of 2026-10-31:
-**one plan, priced in bands by active volunteers** (anyone with a completed shift,
-clock-in or logged hour in the past 12 months), unlimited admins on every paid band,
+**one plan, priced in bands by active volunteers** (since 2026-11-12: everyone on
+file, applicants included, except inactive volunteers and archived records), unlimited
+admins on every paid band,
 no feature gates, clinics as the lead audience. Competitor figures carry their
 sources and the date they were checked (`AS_OF`, `SOURCES`). Change the decision,
 change `content.ts`.

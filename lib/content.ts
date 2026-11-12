@@ -5,11 +5,12 @@
  * (ACTION-PLAN-BRIEF §§1–5, approved by all three co-founders). It replaced
  * the 2026-10-30 ladder in three ways:
  *
- *   1. The meter is ACTIVE volunteers: anyone with at least one completed
- *      shift, clock-in or logged hour in the past 365 days. Applicants,
- *      prospects, inactive volunteers and archived records are never billed,
- *      on any plan. Archive is free and never expires. (Replaces "everyone on
- *      file" and "archived free for 12 months, then deleted".)
+ *   1. The meter is ACTIVE volunteers. Since 2026-11-12 (Sean) that means
+ *      everyone on file — current volunteers, prospects in onboarding AND
+ *      applicants — except volunteers marked inactive and archived records,
+ *      which are never billed, on any plan. There is no activity window.
+ *      Archive is free and never expires. (The 2026-10-31 meter — "served in
+ *      the past 365 days, applicants free" — is retired.)
  *   2. One plan, priced in bands — same prices and band edges as before:
  *      Free ≤25 / Starter $29 ≤100 / Growth $59 101–250 / Professional $89
  *      251–500 / Premier $129 501–750 / Enterprise from $199 above 750.
@@ -221,8 +222,8 @@ export const FREE_TIER = {
   limit: 25,
   admins: 1,
   blurb: {
-    en: 'Free for small programs: scheduling, hour tracking and the volunteer app, with unlimited applicants and archive. No card, no time limit.',
-    es: 'Gratis para programas pequeños: turnos, registro de horas y la app para voluntarios, con solicitudes y archivo ilimitados. Sin tarjeta y sin límite de tiempo.',
+    en: 'Free for small programs: scheduling, hour tracking and the volunteer app, with an unlimited archive. No card, no time limit.',
+    es: 'Gratis para programas pequeños: turnos, registro de horas y la app para voluntarios, con archivo ilimitado. Sin tarjeta y sin límite de tiempo.',
   } as L,
   /** One line next to the $0. */
   short: {
@@ -233,7 +234,7 @@ export const FREE_TIER = {
     { en: 'Volunteer app for any phone, plus a self-service portal', es: 'App para voluntarios en cualquier teléfono y un portal de autoservicio' },
     { en: 'Shift scheduling', es: 'Programación de turnos' },
     { en: 'Clock-in from the phone and hour tracking', es: 'Registro de entrada desde el teléfono y seguimiento de horas' },
-    { en: 'Unlimited applicants and archive', es: 'Solicitudes y archivo ilimitados' },
+    { en: 'Unlimited archive', es: 'Archivo ilimitado' },
   ] as L[],
   /** Under the Free card's button. */
   upgrade: {
@@ -273,24 +274,24 @@ export const TRIAL = {
 export const PLAN_RULES = {
   /** One line next to the price. */
   short: {
-    en: 'You pay only for volunteers who served in the past 12 months.',
-    es: 'Solo pagas por los voluntarios que participaron en los últimos 12 meses.',
+    en: 'You pay for everyone on file, applicants included — never for inactive volunteers or archived records.',
+    es: 'Pagas por todas las personas registradas, incluidos los solicitantes; nunca por voluntarios inactivos ni registros archivados.',
   } as L,
   points: [
     {
       icon: 'UserCheck' as const,
-      title: { en: 'Active volunteers only', es: 'Solo voluntarios activos' },
+      title: { en: 'Who counts as active', es: 'Quién cuenta como activo' },
       body: {
-        en: 'Anyone who completed a shift, clocked in or logged hours in the past 12 months.',
-        es: 'Quien completó un turno, registró su entrada o anotó horas en los últimos 12 meses.',
+        en: 'Current volunteers, people in onboarding and applicants — everyone on file who isn’t inactive or archived.',
+        es: 'Voluntarios actuales, personas en incorporación y solicitantes: todas las personas registradas que no estén inactivas ni archivadas.',
       },
     },
     {
-      icon: 'UserPlus' as const,
+      icon: 'UserMinus' as const,
       title: { en: 'Always free', es: 'Siempre gratis' },
       body: {
-        en: 'Applicants, inactive volunteers and archived records — on every plan, Free included.',
-        es: 'Solicitudes, voluntarios inactivos y registros archivados, en todos los planes, incluido Free.',
+        en: 'Volunteers you mark inactive and archived records — on every plan, Free included.',
+        es: 'Los voluntarios que marques como inactivos y los registros archivados, en todos los planes, incluido Free.',
       },
     },
     {
@@ -317,19 +318,6 @@ export const PLAN_RULES = {
   finePrint: {
     en: 'Prices in US dollars. No setup fees. Support hours are Monday to Friday, 9 a.m. to 5 p.m. Eastern; response times are targets, not guarantees.',
     es: 'Precios en dólares estadounidenses. Sin cuotas de instalación. El horario de soporte es de lunes a viernes, de 9 a. m. a 5 p. m. (hora del Este); los tiempos de respuesta son objetivos, no garantías.',
-  } as L,
-}
-
-/**
- * Go-to-market offer (brief §8): for organizations leaving Volgistics or Get
- * Connected, the white-glove import (already in every paid band) plus the
- * first month free.
- */
-export const MIGRATION_OFFER = {
-  title: { en: 'Leaving Volgistics or Get Connected?', es: '¿Dejas Volgistics o Get Connected?' } as L,
-  body: {
-    en: 'We import your existing volunteer records for you, free, and your first month is free. Every paid band already includes the white-glove import; the free first month is for organizations moving from Volgistics or Get Connected.',
-    es: 'Importamos por ti tus registros de voluntarios actuales, gratis, y tu primer mes es gratis. Todos los tramos pagos ya incluyen la importación hecha por nosotros; el primer mes gratis es para organizaciones que vienen de Volgistics o Get Connected.',
   } as L,
 }
 
@@ -561,8 +549,8 @@ export const COMPARISON = {
     {
       id: 'envolv',
       text: {
-        en: 'Envolv: monthly list price with unlimited admins; annual billing is about 17% lower. Above 750 active volunteers is Enterprise, from $199.',
-        es: 'Envolv: precio mensual de lista con administradores ilimitados; la facturación anual cuesta alrededor de un 17% menos. Más de 750 voluntarios activos es Enterprise, desde $199.',
+        en: 'Envolv: monthly list price with unlimited admins; annual billing is about 17% lower. Counts everyone on file, applicants included, except inactive volunteers and archived records. Above 750 active volunteers is Enterprise, from $199.',
+        es: 'Envolv: precio mensual de lista con administradores ilimitados; la facturación anual cuesta alrededor de un 17% menos. Cuenta a todas las personas registradas, incluidos los solicitantes, salvo los voluntarios inactivos y los registros archivados. Más de 750 voluntarios activos es Enterprise, desde $199.',
       },
     },
     {

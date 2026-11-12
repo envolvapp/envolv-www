@@ -6,7 +6,6 @@ import {
   Check,
   ClipboardCheck,
   Clock,
-  FolderInput,
   HeartHandshake,
   Landmark,
   Languages,
@@ -31,7 +30,6 @@ import {
   ENTERPRISE,
   FEATURES,
   HERO_BADGE,
-  MIGRATION_OFFER,
   PRICE_POINTS,
   VERTICALS,
   envolvMonthlyAt,
@@ -376,14 +374,6 @@ export default function HomePage({ lang }: { lang: Lang }) {
                   {i < COMPARISON.sources.length - 1 ? ' · ' : ''}
                 </span>
               ))}
-            </p>
-
-            <p className="mt-10 flex gap-3 rounded-2xl border border-brand-500/50 bg-ink-950/50 p-5 text-sm leading-relaxed text-ink-200">
-              <FolderInput className="mt-0.5 size-5 shrink-0 text-brand-400" aria-hidden="true" />
-              <span>
-                <strong className="font-semibold text-heading">{MIGRATION_OFFER.title[lang]}</strong>{' '}
-                {MIGRATION_OFFER.body[lang]}
-              </span>
             </p>
 
             <h3 className="mt-10 text-sm font-semibold text-heading">{t.comparison.readMore}</h3>

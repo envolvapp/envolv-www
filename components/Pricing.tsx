@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Archive, Check, LifeBuoy, TrendingUp, UserCheck, UserPlus, UsersRound } from 'lucide-react'
+import { Archive, Check, LifeBuoy, TrendingUp, UserCheck, UserMinus, UsersRound } from 'lucide-react'
 import {
   BANDS,
   ENTERPRISE,
@@ -17,7 +17,7 @@ import {
 import { COPY } from '@/lib/copy'
 import { cn } from '@/lib/utils'
 
-const METER_ICONS = { UserCheck, UserPlus, Archive, TrendingUp }
+const METER_ICONS = { UserCheck, UserMinus, Archive, TrendingUp }
 
 const focusRing = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400'
 
