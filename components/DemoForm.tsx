@@ -119,9 +119,15 @@ export default function DemoForm({ lang }: { lang: Lang }) {
         </div>
         <div>
           <label className={labelClass} htmlFor="size">
-            {t.size} <span className="text-ink-400">{t.sizeHint}</span>
+            {t.size}
           </label>
-          <select id="size" name="size" className={inputClass} defaultValue="">
+          <select
+            id="size"
+            name="size"
+            className={inputClass}
+            defaultValue=""
+            aria-describedby="size-hint"
+          >
             <option value="">{t.selectOne}</option>
             {/* Bands match the plan walls in ACTIVE volunteers (Free 25 /
                 Starter 100 / Growth 250 / Professional 500 / Premier 750 /
@@ -136,6 +142,11 @@ export default function DemoForm({ lang }: { lang: Lang }) {
             <option value="500–750">500–750</option>
             <option value="750+">750+</option>
           </select>
+          {/* The hint sits under the select, not in the label, so both
+              selects in this row line up on the same baseline. */}
+          <p id="size-hint" className="mt-1.5 text-sm text-ink-400">
+            {t.sizeHint}
+          </p>
         </div>
       </div>
 
